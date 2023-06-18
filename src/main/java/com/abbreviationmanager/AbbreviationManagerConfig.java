@@ -1,11 +1,11 @@
-package com.unabbreviator;
+package com.abbreviationmanager;
 
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
-@ConfigGroup("unabbreviator")
-public interface UnabbreviatorConfig extends Config
+@ConfigGroup("abbreviationmanager")
+public interface AbbreviationManagerConfig extends Config
 {
 	@ConfigItem(
 		keyName = "greeting",

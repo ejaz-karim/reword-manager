@@ -1,4 +1,4 @@
-package com.unabbreviator;
+package com.abbreviationmanager;
 
 import com.google.inject.Provides;
 import javax.inject.Inject;
@@ -14,15 +14,15 @@ import net.runelite.client.plugins.PluginDescriptor;
 
 @Slf4j
 @PluginDescriptor(
-	name = "Unabbreviator"
+	name = "Abbreviation Manager"
 )
-public class UnabbreviatorPlugin extends Plugin
+public class AbbreviationManagerPlugin extends Plugin
 {
 	@Inject
 	private Client client;
 
 	@Inject
-	private UnabbreviatorConfig config;
+	private AbbreviationManagerConfig config;
 
 	@Override
 	protected void startUp() throws Exception
@@ -46,8 +46,8 @@ public class UnabbreviatorPlugin extends Plugin
 	}
 
 	@Provides
-	UnabbreviatorConfig provideConfig(ConfigManager configManager)
+	AbbreviationManagerConfig provideConfig(ConfigManager configManager)
 	{
-		return configManager.getConfig(UnabbreviatorConfig.class);
+		return configManager.getConfig(AbbreviationManagerConfig.class);
 	}
 }
