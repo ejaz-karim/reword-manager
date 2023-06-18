@@ -14,7 +14,9 @@ import net.runelite.client.plugins.PluginDescriptor;
 
 @Slf4j
 @PluginDescriptor(
-	name = "Abbreviation Manager"
+	name = "Abbreviation Manager",
+	description = "Abbreviate & Unabbreviate lists of words for chat",
+	tags = {"chat", "acronym", "replace", "word"}
 )
 public class AbbreviationManagerPlugin extends Plugin
 {
@@ -27,13 +29,13 @@ public class AbbreviationManagerPlugin extends Plugin
 	@Override
 	protected void startUp() throws Exception
 	{
-		log.info("Example started!");
+		log.info("Abbreviation Manager started!");
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
-		log.info("Example stopped!");
+		log.info("Abbreviation Manager stopped!");
 	}
 
 	@Subscribe
@@ -41,7 +43,7 @@ public class AbbreviationManagerPlugin extends Plugin
 	{
 		if (gameStateChanged.getGameState() == GameState.LOGGED_IN)
 		{
-			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Example says " + config.greeting(), null);
+			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Abbreviation Manager says " + config.list1(), null);
 		}
 	}
 
