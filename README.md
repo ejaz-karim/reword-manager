@@ -12,5 +12,7 @@ This plugin expands abbreviations and condenses unabbreviated words in the chat.
 ## Examples
 
 dwh -> Dragon Warhammer
+
 Magic shortbow -> msb
+
 tele -> teleport
