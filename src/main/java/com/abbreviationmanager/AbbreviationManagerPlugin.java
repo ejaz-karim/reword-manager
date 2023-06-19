@@ -1,6 +1,9 @@
 package com.abbreviationmanager;
 
 import com.google.inject.Provides;
+
+import java.util.HashMap;
+
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
@@ -20,6 +23,8 @@ import net.runelite.client.plugins.PluginDescriptor;
 )
 public class AbbreviationManagerPlugin extends Plugin
 {
+	private final HashMap<String, String> list1Map = new HashMap<>();
+
 	@Inject
 	private Client client;
 

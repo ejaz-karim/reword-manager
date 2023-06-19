@@ -18,12 +18,12 @@ public interface AbbreviationManagerConfig extends Config
 	@ConfigItem(
 		keyName = "list1",
 		name = "List 1 of abbreviations",
-		description = "Key: abbreviation1:Word1, abbreviation2:Word2",
+		description = "CSV format x,y new line for new entries",
 		position = 1,
 		section = abbreviationLists
 	)
 	default String list1()
 	{
-		return "tele:teleport, Magic shortbow:msb, dwh:Dragon Warhammer";
+		return "Msb,Magic Shortbow";
 	}
 }
