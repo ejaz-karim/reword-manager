@@ -36,7 +36,7 @@ import java.lang.reflect.Field;
 @Slf4j
 @PluginDescriptor(name = "Abbreviation Manager", description = "Abbreviate & Unabbreviate lists of words for chat", tags = {
 		"chat", "acronym", "replace", "word" })
-public class AbbreviationManagerPlugin extends Plugin implements KeyListener {
+public class AbbreviationManagerPlugin extends Plugin {
 	private final HashMap<String, String> list1Map = new HashMap<>();
 
 	@Inject
@@ -68,24 +68,8 @@ public class AbbreviationManagerPlugin extends Plugin implements KeyListener {
 		return configManager.getConfig(AbbreviationManagerConfig.class);
 	}
 
-	// start
 	@Inject
 	private ClientThread clientThread;
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-
-	}
 
 	private void parseConfig() {
 		list1Map.clear();
@@ -131,6 +115,8 @@ public class AbbreviationManagerPlugin extends Plugin implements KeyListener {
 
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage) {
+		log.info("Chat message logged!");
+
 		if (chatMessage.getType() != ChatMessageType.GAMEMESSAGE) {
 			return;
 		}
