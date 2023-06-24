@@ -1,7 +1,5 @@
 package com.abbreviationmanager;
 
-import com.abbreviationmanager.AbbreviationManagerPlugin;
-
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;
 

@@ -2,7 +2,6 @@ package com.abbreviationmanager;
 
 import com.google.inject.Provides;
 
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,23 +14,15 @@ import net.runelite.api.ScriptID;
 import net.runelite.api.VarClientStr;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameStateChanged;
+import net.runelite.api.events.ScriptCallbackEvent;
 import net.runelite.api.vars.InputType;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
-import net.runelite.client.input.KeyListener;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-
-import java.awt.event.KeyEvent;
-
-import javax.inject.Singleton;
-
-import net.runelite.api.VarClientInt;
-
 import net.runelite.client.callback.ClientThread;
-
-import java.lang.reflect.Field;
+import net.runelite.client.chat.ChatMessageBuilder;
 
 @Slf4j
 @PluginDescriptor(name = "Abbreviation Manager", description = "Abbreviate & Unabbreviate lists of words for chat", tags = {
@@ -115,22 +106,25 @@ public class AbbreviationManagerPlugin extends Plugin {
 
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage) {
-		log.info("Chat message logged!");
-
-		if (chatMessage.getType() != ChatMessageType.GAMEMESSAGE) {
-			return;
-		}
-
 		String message = chatMessage.getMessage();
 
-		// Perform word replacement
+		// Iterate over each entry in the abbreviation map and replace words in the chat
+		// message
 		for (Map.Entry<String, String> entry : list1Map.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue();
-			message = message.replaceAll("(?i)\\b" + key + "\\b", value);
+
+			// Replace all occurrences of the key with the corresponding value
+			message = message.replace(key, value);
 		}
 
-		chatMessage.setMessage(message);
+		// Log the modified message
+		log.info(message);
+	}
+
+	@Subscribe
+	public void onScriptCallbackEvent(ScriptCallbackEvent event) {
+
 	}
 
 }
