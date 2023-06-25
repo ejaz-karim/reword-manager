@@ -1,4 +1,4 @@
-package com.abbreviationmanager;
+package com.rewordmanager;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -36,9 +36,9 @@ import net.runelite.client.callback.ClientThread;
 import net.runelite.client.chat.ChatMessageBuilder;
 
 @Slf4j
-@PluginDescriptor(name = "Abbreviation Manager", description = "Abbreviate & Unabbreviate lists of words for chat", tags = {
-		"chat", "acronym", "replace", "word" })
-public class AbbreviationManagerPlugin extends Plugin {
+@PluginDescriptor(name = "Reword Manager", description = "Manage lists to reword Chat messages, Items, NPCs, Objects", tags = {
+		"chat", "message", "acronym", "abbreviate", "replace", "word", "reword", "item", "npc", "object" })
+public class RewordManagerPlugin extends Plugin {
 	private final HashMap<String, String> chatListHashMap = new HashMap<>();
 	private final HashMap<String, String> npcListHashMap = new HashMap<>();
 	private final HashMap<String, String> itemListHashMap = new HashMap<>();
@@ -63,17 +63,16 @@ public class AbbreviationManagerPlugin extends Plugin {
 	private Client client;
 
 	@Inject
-	private AbbreviationManagerConfig config;
+	private RewordManagerConfig config;
 
 	@Override
 	protected void startUp() throws Exception {
-		log.info("Abbreviation Manager started!");
 		parseConfig();
 	}
 
 	@Override
 	protected void shutDown() throws Exception {
-		log.info("Abbreviation Manager stopped!");
+
 	}
 
 	@Subscribe
@@ -82,8 +81,8 @@ public class AbbreviationManagerPlugin extends Plugin {
 	}
 
 	@Provides
-	AbbreviationManagerConfig provideConfig(ConfigManager configManager) {
-		return configManager.getConfig(AbbreviationManagerConfig.class);
+	RewordManagerConfig provideConfig(ConfigManager configManager) {
+		return configManager.getConfig(RewordManagerConfig.class);
 	}
 
 	@Inject
@@ -135,17 +134,13 @@ public class AbbreviationManagerPlugin extends Plugin {
 	public void onChatMessage(ChatMessage chatMessage) {
 		String message = chatMessage.getMessage();
 
-		// Iterate over each entry in the abbreviation map and replace words in the chat
-		// message
 		for (Map.Entry<String, String> entry : chatListHashMap.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue();
 
-			// Replace all occurrences of the key with the corresponding value
 			message = message.replace(key, value);
 		}
 
-		// Log the modified message
 		log.info(message);
 	}
 
@@ -231,15 +226,5 @@ public class AbbreviationManagerPlugin extends Plugin {
 			remapMenuEntryText(entry, itemListHashMap);
 		}
 	}
-
-	// @Subscribe
-	// private void onBeforeRender(BeforeRender event) {
-	// if (client.getGameState() != GameState.LOGGED_IN)
-	// return;
-
-	// for (Widget widgetRoot : client.getWidgetRoots()) {
-	// remapWidget(widgetRoot);
-	// }
-	// }
 
 }

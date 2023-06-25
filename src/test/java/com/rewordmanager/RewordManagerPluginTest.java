@@ -1,11 +1,13 @@
-package com.abbreviationmanager;
+package com.rewordmanager;
+
+import com.rewordmanager.RewordManagerPlugin;
 
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;
 
-public class AbbreviationManagerPluginTest {
+public class RewordManagerPluginTest {
 	public static void main(String[] args) throws Exception {
-		ExternalPluginManager.loadBuiltin(AbbreviationManagerPlugin.class);
+		ExternalPluginManager.loadBuiltin(RewordManagerPlugin.class);
 		RuneLite.main(args);
 	}
 }
