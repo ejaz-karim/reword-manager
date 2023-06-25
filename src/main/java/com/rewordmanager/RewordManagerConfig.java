@@ -26,5 +26,9 @@ public interface RewordManagerConfig extends Config {
 	}
 
 	//object list
+	@ConfigItem(keyName = "objectList", name = "Object List", description = "CSV format x,y - New line for new entries. For rewording objects", position = 4, section = rewordLists)
+	default String objectList() {
+		return "";
+	}
 
 }

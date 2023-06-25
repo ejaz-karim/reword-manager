@@ -42,22 +42,45 @@ public class RewordManagerPlugin extends Plugin {
 	private final HashMap<String, String> chatListHashMap = new HashMap<>();
 	private final HashMap<String, String> npcListHashMap = new HashMap<>();
 	private final HashMap<String, String> itemListHashMap = new HashMap<>();
+	private final HashMap<String, String> objectListHashMap = new HashMap<>();
 
 	private static final Set<MenuAction> NPC_MENU_ACTIONS = ImmutableSet.of(
-			MenuAction.NPC_FIRST_OPTION, MenuAction.NPC_SECOND_OPTION,
-			MenuAction.NPC_THIRD_OPTION, MenuAction.NPC_FOURTH_OPTION,
-			MenuAction.NPC_FIFTH_OPTION, MenuAction.WIDGET_TARGET_ON_NPC,
-			MenuAction.EXAMINE_NPC, MenuAction.EXAMINE_OBJECT);
+			MenuAction.NPC_FIRST_OPTION,
+			MenuAction.NPC_SECOND_OPTION,
+			MenuAction.NPC_THIRD_OPTION,
+			MenuAction.NPC_FOURTH_OPTION,
+			MenuAction.NPC_FIFTH_OPTION,
+			MenuAction.WIDGET_TARGET_ON_NPC,
+			MenuAction.EXAMINE_NPC);
 
 	private static final Set<MenuAction> ITEM_MENU_ACTIONS = ImmutableSet.of(
-			MenuAction.GROUND_ITEM_FIRST_OPTION, MenuAction.GROUND_ITEM_SECOND_OPTION,
-			MenuAction.GROUND_ITEM_THIRD_OPTION, MenuAction.GROUND_ITEM_FOURTH_OPTION,
-			MenuAction.GROUND_ITEM_FIFTH_OPTION, MenuAction.EXAMINE_ITEM_GROUND,
-			// Inventory + Using Item on Players/NPCs/Objects
-			MenuAction.CC_OP, MenuAction.CC_OP_LOW_PRIORITY, MenuAction.WIDGET_TARGET,
-			MenuAction.WIDGET_TARGET_ON_PLAYER, MenuAction.WIDGET_TARGET_ON_NPC,
-			MenuAction.WIDGET_TARGET_ON_GAME_OBJECT, MenuAction.WIDGET_TARGET_ON_GROUND_ITEM,
-			MenuAction.WIDGET_TARGET_ON_WIDGET);
+			MenuAction.GROUND_ITEM_FIRST_OPTION,
+			MenuAction.GROUND_ITEM_SECOND_OPTION,
+			MenuAction.GROUND_ITEM_THIRD_OPTION,
+			MenuAction.GROUND_ITEM_FOURTH_OPTION,
+			MenuAction.GROUND_ITEM_FIFTH_OPTION,
+			MenuAction.EXAMINE_ITEM_GROUND,
+			MenuAction.WIDGET_TARGET_ON_GROUND_ITEM,
+			MenuAction.CC_OP,
+			MenuAction.CC_OP_LOW_PRIORITY,
+			MenuAction.WIDGET_TARGET
+
+	// MenuAction.WIDGET_TARGET_ON_WIDGET
+	);
+
+	private static final Set<MenuAction> OBJECT_MENU_ACTIONS = ImmutableSet.of(
+			MenuAction.GAME_OBJECT_FIRST_OPTION,
+			MenuAction.GAME_OBJECT_SECOND_OPTION,
+			MenuAction.GAME_OBJECT_THIRD_OPTION,
+			MenuAction.GAME_OBJECT_FOURTH_OPTION,
+			MenuAction.GAME_OBJECT_FIFTH_OPTION,
+			MenuAction.WIDGET_TARGET_ON_GAME_OBJECT,
+			MenuAction.EXAMINE_OBJECT,
+			MenuAction.CC_OP,
+			MenuAction.CC_OP_LOW_PRIORITY,
+			MenuAction.WIDGET_TARGET
+
+	);
 
 	@Inject
 	private Client client;
@@ -92,11 +115,13 @@ public class RewordManagerPlugin extends Plugin {
 		chatListHashMap.clear();
 		npcListHashMap.clear();
 		itemListHashMap.clear();
+		objectListHashMap.clear();
 
 		try {
 			parseHashMap(config.chatList(), chatListHashMap);
 			parseHashMap(config.npcList(), npcListHashMap);
 			parseHashMap(config.itemList(), itemListHashMap);
+			parseHashMap(config.objectList(), objectListHashMap);
 		} catch (Exception ignored) {
 		}
 	}
@@ -185,6 +210,7 @@ public class RewordManagerPlugin extends Plugin {
 
 			remapWidgetText(component, text, npcListHashMap);
 			remapWidgetText(component, text, itemListHashMap);
+			remapWidgetText(component, text, objectListHashMap);
 		}
 	}
 
@@ -224,6 +250,8 @@ public class RewordManagerPlugin extends Plugin {
 			remapMenuEntryText(entry, npcListHashMap);
 		} else if (ITEM_MENU_ACTIONS.contains(entry.getType())) {
 			remapMenuEntryText(entry, itemListHashMap);
+		} else if (OBJECT_MENU_ACTIONS.contains(entry.getType())) {
+			remapMenuEntryText(entry, objectListHashMap);
 		}
 	}
 
