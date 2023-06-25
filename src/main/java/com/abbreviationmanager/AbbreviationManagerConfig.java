@@ -10,17 +10,17 @@ public interface AbbreviationManagerConfig extends Config {
 	@ConfigSection(name = "Abbreviation Lists", description = "Manage the lists", position = 0)
 	String abbreviationLists = "abbreviationLists";
 
-	@ConfigItem(keyName = "chatList", name = "Chat List", description = "For changing chat messages\nCSV format x,y\nNew line for new entries", position = 1, section = abbreviationLists)
+	@ConfigItem(keyName = "chatList", name = "Chat List", description = "CSV format x,y - New line for new entries. For rewording chat messages", position = 1, section = abbreviationLists)
 	default String chatList() {
 		return "Msb,Magic";
 	}
 
-	@ConfigItem(keyName = "npcList", name = "NPC List", description = "For changing NPC names\nCSV format x,y\nNew line for new entries", position = 2, section = abbreviationLists)
+	@ConfigItem(keyName = "npcList", name = "NPC List", description = "CSV format x,y - New line for new entries. For rewording NPCs", position = 2, section = abbreviationLists)
 	default String npcList() {
 		return "";
 	}
 
-	@ConfigItem(keyName = "itemList", name = "Item List", description = "For changing item names\nCSV format x,y\nNew line for new entries", position = 3, section = abbreviationLists)
+	@ConfigItem(keyName = "itemList", name = "Item List", description = "CSV format x,y - New line for new entries. For rewording items", position = 3, section = abbreviationLists)
 	default String itemList() {
 		return "";
 	}
