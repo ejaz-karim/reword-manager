@@ -10,8 +10,8 @@ Reword Manager will allow for Chat messages, Items, NPCs, and Objects to be rewo
 
 ## Examples
 
-NPC List:
-    Bob,Bobexample
-    Man,Manexample
+	NPC List:
+    	Bob,Bob example
+    	Man,Man example
 
-Entering data in the lists must be in the CSV format <x,y> and use a new line for each entity.
+Entering data in the lists must be in the CSV format ***x,y*** and use a new line for each entity.
