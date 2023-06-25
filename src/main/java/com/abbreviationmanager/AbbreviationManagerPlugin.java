@@ -28,7 +28,9 @@ import net.runelite.client.chat.ChatMessageBuilder;
 @PluginDescriptor(name = "Abbreviation Manager", description = "Abbreviate & Unabbreviate lists of words for chat", tags = {
 		"chat", "acronym", "replace", "word" })
 public class AbbreviationManagerPlugin extends Plugin {
-	private final HashMap<String, String> list1Map = new HashMap<>();
+	private final HashMap<String, String> chatListHashMap = new HashMap<>();
+	private final HashMap<String, String> npcListHashMap = new HashMap<>();
+	private final HashMap<String, String> itemListHashMap = new HashMap<>();
 
 	@Inject
 	private Client client;
@@ -63,26 +65,29 @@ public class AbbreviationManagerPlugin extends Plugin {
 	private ClientThread clientThread;
 
 	private void parseConfig() {
-		list1Map.clear();
+		chatListHashMap.clear();
+		npcListHashMap.clear();
+		itemListHashMap.clear();
 
 		try {
-			String list = config.list1();
-			if (list.isEmpty())
-				return;
-
-			String[] pairs = list.split("\n");
-			for (String pair : pairs) {
-				String[] kv = pair.split(",");
-				if (kv.length != 2)
-					continue;
-				list1Map.put(kv[0], kv[1]);
-				// print the contents pair of list1Map
-				// for (String key : list1Map.keySet()) {
-				// System.out.println("key: " + key + " value: " + list1Map.get(key));
-				// }
-
-			}
+			parseHashMap(config.chatList(), chatListHashMap);
+			parseHashMap(config.npcList(), npcListHashMap);
+			parseHashMap(config.itemList(), itemListHashMap);
 		} catch (Exception ignored) {
+		}
+	}
+
+	private void parseHashMap(String csv, HashMap<String, String> hashMap) {
+		if (csv.isEmpty())
+			return;
+
+		String[] pairs = csv.split("\n");
+		for (String pair : pairs) {
+			String[] kv = pair.split(",");
+			if (kv.length != 2)
+				continue;
+			hashMap.put(kv[0], kv[1]);
+
 		}
 	}
 
@@ -110,7 +115,7 @@ public class AbbreviationManagerPlugin extends Plugin {
 
 		// Iterate over each entry in the abbreviation map and replace words in the chat
 		// message
-		for (Map.Entry<String, String> entry : list1Map.entrySet()) {
+		for (Map.Entry<String, String> entry : chatListHashMap.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue();
 
