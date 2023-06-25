@@ -61,7 +61,6 @@ public class RewordManagerPlugin extends Plugin {
 			MenuAction.GROUND_ITEM_FIFTH_OPTION,
 			MenuAction.EXAMINE_ITEM_GROUND,
 			MenuAction.WIDGET_TARGET_ON_GROUND_ITEM,
-			MenuAction.CC_OP,
 			MenuAction.CC_OP_LOW_PRIORITY,
 			MenuAction.WIDGET_TARGET
 
@@ -76,8 +75,6 @@ public class RewordManagerPlugin extends Plugin {
 			MenuAction.GAME_OBJECT_FIFTH_OPTION,
 			MenuAction.WIDGET_TARGET_ON_GAME_OBJECT,
 			MenuAction.EXAMINE_OBJECT,
-			MenuAction.CC_OP,
-			MenuAction.CC_OP_LOW_PRIORITY,
 			MenuAction.WIDGET_TARGET
 
 	);
@@ -192,7 +189,7 @@ public class RewordManagerPlugin extends Plugin {
 		} else {
 			cleanTarget = Text.removeTags(target);
 		}
-		for (Map.Entry<String, String> entry : map.entrySet()) {
+		for (HashMap.Entry<String, String> entry : map.entrySet()) {
 			if (cleanTarget.equals(entry.getKey())) {
 				menuEntry.setTarget(target.replace(entry.getKey(), entry.getValue()));
 			}
