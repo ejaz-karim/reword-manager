@@ -30,7 +30,8 @@ import net.runelite.client.chat.ChatMessageBuilder;
 
 @Slf4j
 @PluginDescriptor(name = "Reword Manager", description = "Manage lists to reword Chat messages, Items, NPCs, Objects", tags = {
-		"chat", "message", "acronym", "abbreviate", "replace", "word", "reword", "item", "npc", "object" })
+		"reword", "word", "rename", "replace", "acronym", "abbreviate", "chat", "message", "npc", "item", "object" })
+
 public class RewordManagerPlugin extends Plugin {
 	private final HashMap<String, String> chatListHashMap = new HashMap<>();
 	private final HashMap<String, String> npcListHashMap = new HashMap<>();
