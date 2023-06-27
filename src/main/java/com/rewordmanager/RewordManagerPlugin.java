@@ -17,6 +17,7 @@ import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.MenuAction;
 import net.runelite.api.MenuEntry;
+import net.runelite.api.MessageNode;
 import net.runelite.api.NPC;
 import net.runelite.api.ScriptID;
 import net.runelite.api.VarClientStr;
@@ -33,8 +34,10 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.util.QuantityFormatter;
 import net.runelite.client.util.Text;
 import net.runelite.client.callback.ClientThread;
+import net.runelite.client.chat.ChatColorType;
 import net.runelite.client.chat.ChatMessageBuilder;
 
 @Slf4j
@@ -138,28 +141,24 @@ public class RewordManagerPlugin extends Plugin {
 		parseConfig();
 	}
 
-	private void applyText(int inputType, String replacement) {
-		if (inputType == InputType.NONE.getType()) {
-			client.setVarcStrValue(VarClientStr.CHATBOX_TYPED_TEXT, replacement);
-			client.runScript(ScriptID.CHAT_PROMPT_INIT);
-		} else if (inputType == InputType.PRIVATE_MESSAGE.getType()) {
-			client.setVarcStrValue(VarClientStr.INPUT_TEXT, replacement);
-			client.runScript(ScriptID.CHAT_TEXT_INPUT_REBUILD, "");
-		}
-	}
-
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage) {
-		String message = chatMessage.getMessage();
+		MessageNode messageNode = chatMessage.getMessageNode();
 
-		for (Map.Entry<String, String> entry : chatListHashMap.entrySet()) {
-			String key = entry.getKey();
-			String value = entry.getValue();
+		final ChatMessageBuilder builder = new ChatMessageBuilder()
+				.append(ChatColorType.NORMAL)
+				.append("Msb")
+				.append(ChatColorType.HIGHLIGHT)
+				.append(ChatColorType.NORMAL)
+				.append("Magic")
+				.append(ChatColorType.HIGHLIGHT);
 
-			message = message.replace(key, value);
-		}
+		String response = builder.build();
 
-		log.info(message);
+		log.debug("Setting response {}", response);
+		messageNode.setRuneLiteFormatMessage(response);
+		client.refreshChat();
+
 	}
 
 	@Subscribe
