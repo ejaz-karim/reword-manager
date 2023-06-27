@@ -1,32 +1,22 @@
 package com.rewordmanager;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
-import net.runelite.api.GameState;
 import net.runelite.api.MenuAction;
 import net.runelite.api.MenuEntry;
 import net.runelite.api.MessageNode;
 import net.runelite.api.NPC;
-import net.runelite.api.ScriptID;
-import net.runelite.api.VarClientStr;
-import net.runelite.api.events.BeforeRender;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.MenuEntryAdded;
-import net.runelite.api.events.ScriptCallbackEvent;
-import net.runelite.api.vars.InputType;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
@@ -34,9 +24,7 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.util.QuantityFormatter;
 import net.runelite.client.util.Text;
-import net.runelite.client.callback.ClientThread;
 import net.runelite.client.chat.ChatColorType;
 import net.runelite.client.chat.ChatMessageBuilder;
 
@@ -49,7 +37,7 @@ public class RewordManagerPlugin extends Plugin {
 	private final HashMap<String, String> itemListHashMap = new HashMap<>();
 	private final HashMap<String, String> objectListHashMap = new HashMap<>();
 
-	private static final List<MenuAction> NPC_MENU_ACTIONS = ImmutableList.of(
+	private static final Set<MenuAction> NPC_MENU_ACTIONS = ImmutableSet.of(
 			MenuAction.NPC_FIRST_OPTION,
 			MenuAction.NPC_SECOND_OPTION,
 			MenuAction.NPC_THIRD_OPTION,
@@ -58,7 +46,7 @@ public class RewordManagerPlugin extends Plugin {
 			MenuAction.WIDGET_TARGET_ON_NPC,
 			MenuAction.EXAMINE_NPC);
 
-	private static final List<MenuAction> ITEM_MENU_ACTIONS = ImmutableList.of(
+	private static final Set<MenuAction> ITEM_MENU_ACTIONS = ImmutableSet.of(
 			MenuAction.GROUND_ITEM_FIRST_OPTION,
 			MenuAction.GROUND_ITEM_SECOND_OPTION,
 			MenuAction.GROUND_ITEM_THIRD_OPTION,
@@ -69,7 +57,7 @@ public class RewordManagerPlugin extends Plugin {
 			MenuAction.CC_OP_LOW_PRIORITY,
 			MenuAction.WIDGET_TARGET);
 
-	private static final List<MenuAction> OBJECT_MENU_ACTIONS = ImmutableList.of(
+	private static final Set<MenuAction> OBJECT_MENU_ACTIONS = ImmutableSet.of(
 			MenuAction.GAME_OBJECT_FIRST_OPTION,
 			MenuAction.GAME_OBJECT_SECOND_OPTION,
 			MenuAction.GAME_OBJECT_THIRD_OPTION,
@@ -103,9 +91,6 @@ public class RewordManagerPlugin extends Plugin {
 	RewordManagerConfig provideConfig(ConfigManager configManager) {
 		return configManager.getConfig(RewordManagerConfig.class);
 	}
-
-	@Inject
-	private ClientThread clientThread;
 
 	private void parseConfig() {
 		chatListHashMap.clear();
@@ -143,27 +128,32 @@ public class RewordManagerPlugin extends Plugin {
 
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage) {
-		MessageNode messageNode = chatMessage.getMessageNode();
+		String message = chatMessage.getMessage();
 
-		final ChatMessageBuilder builder = new ChatMessageBuilder()
-				.append(ChatColorType.NORMAL)
-				.append("Msb")
-				.append(ChatColorType.HIGHLIGHT)
-				.append(ChatColorType.NORMAL)
-				.append("Magic")
-				.append(ChatColorType.HIGHLIGHT);
+		boolean containsKeyword = false;
 
+		for (String keyword : chatListHashMap.keySet()) {
+			if (message.contains(keyword)) {
+				containsKeyword = true;
+				break;
+			}
+		}
+
+		if (!containsKeyword) {
+			return;
+		}
+
+		final ChatMessageBuilder builder = new ChatMessageBuilder();
+		String[] words = message.split(" ");
+
+		for (String word : words) {
+			String modifiedWord = chatListHashMap.getOrDefault(word, word);
+			builder.append(ChatColorType.NORMAL).append(modifiedWord).append(" ");
+		}
 		String response = builder.build();
-
-		log.debug("Setting response {}", response);
+		MessageNode messageNode = chatMessage.getMessageNode();
 		messageNode.setRuneLiteFormatMessage(response);
 		client.refreshChat();
-
-	}
-
-	@Subscribe
-	public void onScriptCallbackEvent(ScriptCallbackEvent event) {
-
 	}
 
 	private void remapWidgetText(Widget component, String text, HashMap<String, String> map) {
@@ -199,7 +189,6 @@ public class RewordManagerPlugin extends Plugin {
 			if (text.isEmpty()) {
 				continue;
 			}
-
 			remapWidgetText(component, text, npcListHashMap);
 			remapWidgetText(component, text, itemListHashMap);
 			remapWidgetText(component, text, objectListHashMap);
