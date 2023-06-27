@@ -7,12 +7,12 @@ import net.runelite.client.config.ConfigSection;
 
 @ConfigGroup("rewordmanager")
 public interface RewordManagerConfig extends Config {
-	@ConfigSection(name = "Reword Lists", description = "Section for managing lists.", position = 0)
+	@ConfigSection(name = "Reword Lists", description = "Section for managing lists", position = 0)
 	String rewordLists = "rewordLists";
 
 	@ConfigItem(keyName = "chatList", name = "Chat List", description = "CSV format x,y - case-sensitive - New line for new entries. For rewording chat messages", position = 1, section = rewordLists)
 	default String chatList() {
-		return "";
+		return "Example,Example1";
 	}
 
 	@ConfigItem(keyName = "npcList", name = "NPC List", description = "CSV format x,y - case-sensitive - New line for new entries. For rewording NPCs", position = 2, section = rewordLists)

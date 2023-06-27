@@ -1,7 +1,5 @@
 package com.rewordmanager;
 
-import com.rewordmanager.RewordManagerPlugin;
-
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;
 
