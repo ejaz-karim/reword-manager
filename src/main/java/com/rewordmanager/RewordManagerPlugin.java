@@ -55,6 +55,7 @@ public class RewordManagerPlugin extends Plugin {
 			MenuAction.GROUND_ITEM_FIFTH_OPTION,
 			MenuAction.EXAMINE_ITEM_GROUND,
 			MenuAction.WIDGET_TARGET_ON_GROUND_ITEM,
+			MenuAction.CC_OP,
 			MenuAction.CC_OP_LOW_PRIORITY,
 			MenuAction.WIDGET_TARGET);
 
@@ -140,7 +141,7 @@ public class RewordManagerPlugin extends Plugin {
 			}
 		}
 
-		if (!containsKeyword) {
+		if (!containsKeyword || message.contains("</col>")) {
 			return;
 		}
 
