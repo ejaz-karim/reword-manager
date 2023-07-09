@@ -146,8 +146,9 @@ public class RewordManagerPlugin extends Plugin {
 		}
 
 		final ChatMessageBuilder builder = new ChatMessageBuilder();
+		builder.append(ChatColorType.HIGHLIGHT).append("[modified] ");
 		String[] words = message.split(" ");
-		// need to add [modified]
+		
 		for (String word : words) {
 			String modifiedWord = chatListHashMap.getOrDefault(word, word);
 			builder.append(ChatColorType.NORMAL).append(modifiedWord).append(" ");
