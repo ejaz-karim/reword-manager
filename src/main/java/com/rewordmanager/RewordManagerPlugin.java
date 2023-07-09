@@ -6,6 +6,8 @@ import com.google.inject.Provides;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -135,20 +137,23 @@ public class RewordManagerPlugin extends Plugin {
 		boolean containsKeyword = false;
 
 		for (String keyword : chatListHashMap.keySet()) {
-			if (message.contains(keyword)) {
+			Pattern pattern = Pattern.compile("\\b" + keyword + "\\b");
+			Matcher matcher = pattern.matcher(message);
+
+			if (matcher.find()) {
 				containsKeyword = true;
 				break;
 			}
 		}
-
-		if (!containsKeyword || message.contains("</col>")) {
+		
+		if (!containsKeyword || message.matches(".*</col>.*")) {
 			return;
 		}
 
 		final ChatMessageBuilder builder = new ChatMessageBuilder();
 		builder.append(ChatColorType.HIGHLIGHT).append("[modified] ");
 		String[] words = message.split(" ");
-		
+
 		for (String word : words) {
 			String modifiedWord = chatListHashMap.getOrDefault(word, word);
 			builder.append(ChatColorType.NORMAL).append(modifiedWord).append(" ");
