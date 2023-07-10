@@ -10,22 +10,22 @@ public interface RewordManagerConfig extends Config {
 	@ConfigSection(name = "Reword Lists", description = "Section for managing lists", position = 0)
 	String rewordLists = "rewordLists";
 
-	@ConfigItem(keyName = "chatList", name = "Chat List:", description = "CSV format x,y - case-sensitive - New line for new entries. For rewording Chat messages", position = 1, section = rewordLists)
+	@ConfigItem(keyName = "chatList", name = "Chat List", description = "CSV format x,y - case-sensitive. New line for new entries. For rewording chat messages.", position = 1, section = rewordLists)
 	default String chatList() {
-		return "Example,Example1";
+		return "Example0,Example1\nExample2,Example3";
 	}
 
-	@ConfigItem(keyName = "npcList", name = "NPC List:", description = "CSV format x,y - case-sensitive - New line for new entries. For rewording NPCs", position = 2, section = rewordLists)
+	@ConfigItem(keyName = "npcList", name = "NPC List", description = "CSV format x,y - case-sensitive. New line for new entries. For rewording NPCs.", position = 2, section = rewordLists)
 	default String npcList() {
 		return "";
 	}
 
-	@ConfigItem(keyName = "itemList", name = "Item List:", description = "CSV format x,y - case-sensitive - New line for new entries. For rewording Items", position = 3, section = rewordLists)
+	@ConfigItem(keyName = "itemList", name = "Item List", description = "CSV format x,y - case-sensitive. New line for new entries. For rewording items.", position = 3, section = rewordLists)
 	default String itemList() {
 		return "";
 	}
 
-	@ConfigItem(keyName = "objectList", name = "Object List:", description = "CSV format x,y - case-sensitive - New line for new entries. For rewording Objects", position = 4, section = rewordLists)
+	@ConfigItem(keyName = "objectList", name = "Object List", description = "CSV format x,y - case-sensitive. New line for new entries. For rewording objects.", position = 4, section = rewordLists)
 	default String objectList() {
 		return "";
 	}

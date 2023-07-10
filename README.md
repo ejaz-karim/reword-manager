@@ -2,7 +2,7 @@
 
 A plugin for [RuneLite](https://runelite.net/)
 
-This project is using Adoptium Eclipse Temurin 11
+This project uses Adoptium Eclipse Temurin 11 as its JDK.
 
 ## Introduction
 
@@ -19,7 +19,9 @@ Entering data in the lists must be in the CSV format ***x,y*** and is case-sensi
 
 ## Exceptions
 
-You cannot remap
+The chat list cannot remap words containing `<`,`>`. However the replacement word can contain `<`,`>`
 
- 	<
-	>
+If your modified message contains `<`,`>` and you haven't used it as a replacement word, it will appear as
+
+	<gt> 
+	<lt>
