@@ -6,7 +6,6 @@ import com.google.inject.Provides;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -133,31 +132,29 @@ public class RewordManagerPlugin extends Plugin {
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage) {
 		String message = chatMessage.getMessage();
-
 		boolean containsKeyword = false;
 
 		for (String keyword : chatListHashMap.keySet()) {
 			Pattern pattern = Pattern.compile("\\b" + keyword + "\\b");
-			Matcher matcher = pattern.matcher(message);
-
-			if (matcher.find()) {
+			if (pattern.matcher(message).find()) {
 				containsKeyword = true;
 				break;
 			}
 		}
-		
-		if (!containsKeyword || message.matches(".*</col>.*")) {
+
+		if (!containsKeyword || message.contains("</col>")) {
 			return;
 		}
 
 		final ChatMessageBuilder builder = new ChatMessageBuilder();
-		builder.append(ChatColorType.HIGHLIGHT).append("[modified] ");
-		String[] words = message.split(" ");
+		builder.append(ChatColorType.HIGHLIGHT).append("[Modified] ");
 
+		String[] words = message.split(" ");
 		for (String word : words) {
 			String modifiedWord = chatListHashMap.getOrDefault(word, word);
 			builder.append(ChatColorType.NORMAL).append(modifiedWord).append(" ");
 		}
+
 		String response = builder.build();
 		MessageNode messageNode = chatMessage.getMessageNode();
 		messageNode.setRuneLiteFormatMessage(response);
