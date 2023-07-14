@@ -1,6 +1,6 @@
 # Reword Manager
 
-A plugin for [RuneLite](https://runelite.net/)
+A plugin for [RuneLite](https://runelite.net/plugin-hub/ejaz-karim)
 
 This project uses Adoptium Eclipse Temurin 11 as its JDK.
 
