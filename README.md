@@ -1,4 +1,6 @@
-# Reword Manager [![](https://img.shields.io/endpoint?url=https://i.pluginhub.info/shields/installs/plugin/reword-manager)](https://runelite.net/plugin-hub/ejaz-karim) [![](https://img.shields.io/endpoint?url=https://i.pluginhub.info/shields/rank/plugin/reword-manager)](https://runelite.net/plugin-hub/ejaz-karim) [![](https://img.shields.io/endpoint?url=https://i.pluginhub.info/shields/rank/author/ejaz-karim)](https://runelite.net/plugin-hub/ejaz-karim)
+# Reword Manager
+
+[![](https://img.shields.io/endpoint?url=https://i.pluginhub.info/shields/installs/plugin/reword-manager)](https://runelite.net/plugin-hub/ejaz-karim) [![](https://img.shields.io/endpoint?url=https://i.pluginhub.info/shields/rank/plugin/reword-manager)](https://runelite.net/plugin-hub/ejaz-karim) [![](https://img.shields.io/endpoint?url=https://i.pluginhub.info/shields/rank/author/ejaz-karim)](https://runelite.net/plugin-hub/ejaz-karim)
 
 A plugin for [RuneLite](https://runelite.net/plugin-hub/ejaz-karim)
 
