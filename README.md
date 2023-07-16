@@ -1,4 +1,4 @@
-# Reword Manager
+# Reword Manager [![](https://img.shields.io/endpoint?url=https://i.pluginhub.info/shields/installs/plugin/reword-manager)](https://runelite.net/plugin-hub/ejaz-karim) [![](https://img.shields.io/endpoint?url=https://i.pluginhub.info/shields/rank/plugin/reword-manager)](https://runelite.net/plugin-hub/ejaz-karim) [![](https://img.shields.io/endpoint?url=https://i.pluginhub.info/shields/rank/author/ejaz-karim)](https://runelite.net/plugin-hub/ejaz-karim)
 
 A plugin for [RuneLite](https://runelite.net/plugin-hub/ejaz-karim)
 
@@ -19,9 +19,11 @@ Entering data in the lists must be in the CSV format ***x,y*** and is case-sensi
 
 ## Exceptions
 
-The chat list cannot remap words containing `<`,`>`. However the replacement word can contain `<`,`>`
+Avoid using special characters to remap in the Chat list.
 
-If your modified message contains `<`,`>` and you haven't used it as a replacement word, it will appear as
+Game messages containing `</col>` or `<br>` will not be modified. E.g. Checking Serpentine helm scales, Casting a line in Barbarian fishing.
+
+If your modified message contains `<`,`>` and you haven't used it in a replacement word, it will appear as
 
 	<gt> 
 	<lt>

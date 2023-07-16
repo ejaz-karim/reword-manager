@@ -142,7 +142,7 @@ public class RewordManagerPlugin extends Plugin {
 			}
 		}
 
-		if (!containsKeyword || message.contains("</col>")) {
+		if (!containsKeyword || message.contains("</col>") || message.contains("<br>")) {
 			return;
 		}
 
