@@ -18,6 +18,7 @@ import net.runelite.api.NPC;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.MenuEntryAdded;
+import net.runelite.api.events.OverheadTextChanged;
 import net.runelite.api.widgets.Widget;
 import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.config.ConfigManager;
@@ -159,6 +160,37 @@ public class RewordManagerPlugin extends Plugin {
 		MessageNode messageNode = chatMessage.getMessageNode();
 		messageNode.setRuneLiteFormatMessage(response);
 		client.refreshChat();
+	}
+
+	@Subscribe
+	public void onOverheadTextChanged(OverheadTextChanged overheadText) {
+		String message = overheadText.getOverheadText();
+		boolean containsKeyword = false;
+
+		for (String keyword : chatListHashMap.keySet()) {
+			Pattern pattern = Pattern.compile("\\b" + keyword + "\\b");
+			if (pattern.matcher(message).find()) {
+				containsKeyword = true;
+				break;
+			}
+		}
+
+		if (!containsKeyword) {
+			return;
+		}
+
+		String[] words = message.split(" ");
+
+		String modified_message = "[Modified] ";
+		for (String word : words) {
+			String modifiedWord = chatListHashMap.getOrDefault(word, word);
+			modified_message += modifiedWord + " ";
+		}
+
+		System.out.println(modified_message);
+
+		overheadText.getActor().setOverheadText(modified_message);
+
 	}
 
 	private void remapWidgetText(Widget component, String text, HashMap<String, String> map) {
