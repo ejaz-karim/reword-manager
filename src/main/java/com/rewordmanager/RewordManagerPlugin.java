@@ -136,7 +136,7 @@ public class RewordManagerPlugin extends Plugin {
 		boolean containsKeyword = false;
 
 		for (String keyword : chatListHashMap.keySet()) {
-			Pattern pattern = Pattern.compile("\\b" + keyword + "\\b");
+			Pattern pattern = Pattern.compile("(?<!\\.)" + "\\b" + keyword + "\\b" + "(?!\\.)");
 			if (pattern.matcher(message).find()) {
 				containsKeyword = true;
 				break;
@@ -162,36 +162,33 @@ public class RewordManagerPlugin extends Plugin {
 		client.refreshChat();
 	}
 
-	@Subscribe
-	public void onOverheadTextChanged(OverheadTextChanged overheadText) {
-		String message = overheadText.getOverheadText();
-		boolean containsKeyword = false;
+	// @Subscribe
+	// public void onOverheadTextChanged(OverheadTextChanged overheadText) {
+	// 	String message = overheadText.getOverheadText();
+	// 	boolean containsKeyword = false;
 
-		for (String keyword : chatListHashMap.keySet()) {
-			Pattern pattern = Pattern.compile("\\b" + keyword + "\\b");
-			if (pattern.matcher(message).find()) {
-				containsKeyword = true;
-				break;
-			}
-		}
+	// 	for (String keyword : chatListHashMap.keySet()) {
+	// 		Pattern pattern = Pattern.compile("\\b" + keyword + "\\b");
+	// 		if (pattern.matcher(message).find()) {
+	// 			containsKeyword = true;
+	// 			break;
+	// 		}
+	// 	}
 
-		if (!containsKeyword) {
-			return;
-		}
+	// 	if (!containsKeyword) {
+	// 		return;
+	// 	}
 
-		String[] words = message.split(" ");
+	// 	String[] words = message.split(" ");
 
-		String modified_message = "[Modified] ";
-		for (String word : words) {
-			String modifiedWord = chatListHashMap.getOrDefault(word, word);
-			modified_message += modifiedWord + " ";
-		}
+	// 	String modified_message = "[Modified] ";
+	// 	for (String word : words) {
+	// 		String modifiedWord = chatListHashMap.getOrDefault(word, word);
+	// 		modified_message += modifiedWord + " ";
+	// 	}
 
-		System.out.println(modified_message);
-
-		overheadText.getActor().setOverheadText(modified_message);
-
-	}
+	// 	overheadText.getActor().setOverheadText(modified_message);
+	// }
 
 	private void remapWidgetText(Widget component, String text, HashMap<String, String> map) {
 		for (Map.Entry<String, String> entry : map.entrySet()) {
