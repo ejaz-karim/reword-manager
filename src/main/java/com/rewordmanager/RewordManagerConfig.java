@@ -30,4 +30,8 @@ public interface RewordManagerConfig extends Config {
 		return "";
 	}
 
+	@ConfigItem(keyName = "optionList", name = "Option List", description = "CSV format x,y - case-sensitive. New line for new entries. For rewording options.", position = 5, section = rewordLists)
+	default String optionList() {
+		return "";
+	}
 }

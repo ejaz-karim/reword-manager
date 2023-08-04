@@ -39,6 +39,7 @@ public class RewordManagerPlugin extends Plugin {
 	private final HashMap<String, String> npcListHashMap = new HashMap<>();
 	private final HashMap<String, String> itemListHashMap = new HashMap<>();
 	private final HashMap<String, String> objectListHashMap = new HashMap<>();
+	private final HashMap<String, String> optionListHashMap = new HashMap<>();
 
 	private static final Set<MenuAction> NPC_MENU_ACTIONS = ImmutableSet.of(
 			MenuAction.NPC_FIRST_OPTION,
@@ -101,12 +102,14 @@ public class RewordManagerPlugin extends Plugin {
 		npcListHashMap.clear();
 		itemListHashMap.clear();
 		objectListHashMap.clear();
+		optionListHashMap.clear();
 
 		try {
 			parseHashMap(config.chatList(), chatListHashMap);
 			parseHashMap(config.npcList(), npcListHashMap);
 			parseHashMap(config.itemList(), itemListHashMap);
 			parseHashMap(config.objectList(), objectListHashMap);
+			parseHashMap(config.optionList(), optionListHashMap);
 		} catch (Exception ignored) {
 		}
 	}
@@ -164,30 +167,30 @@ public class RewordManagerPlugin extends Plugin {
 
 	// @Subscribe
 	// public void onOverheadTextChanged(OverheadTextChanged overheadText) {
-	// 	String message = overheadText.getOverheadText();
-	// 	boolean containsKeyword = false;
+	// String message = overheadText.getOverheadText();
+	// boolean containsKeyword = false;
 
-	// 	for (String keyword : chatListHashMap.keySet()) {
-	// 		Pattern pattern = Pattern.compile("\\b" + keyword + "\\b");
-	// 		if (pattern.matcher(message).find()) {
-	// 			containsKeyword = true;
-	// 			break;
-	// 		}
-	// 	}
+	// for (String keyword : chatListHashMap.keySet()) {
+	// Pattern pattern = Pattern.compile("\\b" + keyword + "\\b");
+	// if (pattern.matcher(message).find()) {
+	// containsKeyword = true;
+	// break;
+	// }
+	// }
 
-	// 	if (!containsKeyword) {
-	// 		return;
-	// 	}
+	// if (!containsKeyword) {
+	// return;
+	// }
 
-	// 	String[] words = message.split(" ");
+	// String[] words = message.split(" ");
 
-	// 	String modified_message = "[Modified] ";
-	// 	for (String word : words) {
-	// 		String modifiedWord = chatListHashMap.getOrDefault(word, word);
-	// 		modified_message += modifiedWord + " ";
-	// 	}
+	// String modified_message = "[Modified] ";
+	// for (String word : words) {
+	// String modifiedWord = chatListHashMap.getOrDefault(word, word);
+	// modified_message += modifiedWord + " ";
+	// }
 
-	// 	overheadText.getActor().setOverheadText(modified_message);
+	// overheadText.getActor().setOverheadText(modified_message);
 	// }
 
 	private void remapWidgetText(Widget component, String text, HashMap<String, String> map) {
@@ -226,6 +229,7 @@ public class RewordManagerPlugin extends Plugin {
 			remapWidgetText(component, text, npcListHashMap);
 			remapWidgetText(component, text, itemListHashMap);
 			remapWidgetText(component, text, objectListHashMap);
+			remapWidgetText(component, text, optionListHashMap);
 		}
 	}
 
@@ -261,6 +265,10 @@ public class RewordManagerPlugin extends Plugin {
 	@Subscribe
 	protected void onMenuEntryAdded(MenuEntryAdded event) {
 		MenuEntry entry = event.getMenuEntry();
+		// String test = event.getOption();
+		// if (test.equals("Close")) {
+		// entry.setOption("Test");
+		// }
 		if (NPC_MENU_ACTIONS.contains(entry.getType())) {
 			remapMenuEntryText(entry, npcListHashMap);
 		} else if (ITEM_MENU_ACTIONS.contains(entry.getType())) {
