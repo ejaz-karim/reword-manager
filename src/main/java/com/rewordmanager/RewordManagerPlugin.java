@@ -135,7 +135,6 @@ public class RewordManagerPlugin extends Plugin {
 	public void onChatMessage(ChatMessage chatMessage) {
 		String message = chatMessage.getMessage();
 		boolean containsKeyword = false;
-
 		for (String keyword : chatListHashMap.keySet()) {
 			Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword + "\\b(?!\\p{Punct})");
 			if (pattern.matcher(message).find()) {
@@ -143,11 +142,9 @@ public class RewordManagerPlugin extends Plugin {
 				break;
 			}
 		}
-
 		if (!containsKeyword || message.contains("</col>") || message.contains("<br>")) {
 			return;
 		}
-
 		final ChatMessageBuilder builder = new ChatMessageBuilder();
 		builder.append(ChatColorType.HIGHLIGHT).append("[Modified] ");
 
@@ -156,7 +153,6 @@ public class RewordManagerPlugin extends Plugin {
 			String modifiedWord = chatListHashMap.getOrDefault(word, word);
 			builder.append(ChatColorType.NORMAL).append(modifiedWord).append(" ");
 		}
-
 		String response = builder.build();
 		MessageNode messageNode = chatMessage.getMessageNode();
 		messageNode.setRuneLiteFormatMessage(response);
@@ -167,27 +163,23 @@ public class RewordManagerPlugin extends Plugin {
 	// public void onOverheadTextChanged(OverheadTextChanged overheadText) {
 	// String message = overheadText.getOverheadText();
 	// boolean containsKeyword = false;
-
 	// for (String keyword : chatListHashMap.keySet()) {
-	// Pattern pattern = Pattern.compile("\\b" + keyword + "\\b");
+	// Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword +
+	// "\\b(?!\\p{Punct})");
 	// if (pattern.matcher(message).find()) {
 	// containsKeyword = true;
 	// break;
 	// }
 	// }
-
 	// if (!containsKeyword) {
 	// return;
 	// }
-
 	// String[] words = message.split(" ");
-
 	// String modified_message = "[Modified] ";
 	// for (String word : words) {
 	// String modifiedWord = chatListHashMap.getOrDefault(word, word);
 	// modified_message += modifiedWord + " ";
 	// }
-
 	// overheadText.getActor().setOverheadText(modified_message);
 	// }
 
