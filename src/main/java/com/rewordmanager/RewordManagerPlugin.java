@@ -260,26 +260,16 @@ public class RewordManagerPlugin extends Plugin {
 		}
 	}
 
+	private void remapOptionText(MenuEntry event) {
+		String option = event.getOption();
+		if (optionListHashMap.containsKey(option)) {
+			event.setOption(optionListHashMap.get(option));
+		}
+	}
+
 	@Subscribe
 	protected void onMenuEntryAdded(MenuEntryAdded event) {
 		MenuEntry entry = event.getMenuEntry();
-		String test = event.getOption();
-		if (test.equals("Close")) {
-			entry.setOption("Test");
-		}
-		String test1 = event.getOption();
-		if (test1.equals("Wind Strike")) {
-			entry.setOption("Test");
-		}
-		String test2 = event.getOption();
-		if (test2.equals("Edgeville")) {
-			entry.setOption("Test3");
-		}
-		String test3 = event.getOption();
-		if (test3.equals("Cast")) {
-			entry.setOption("Test4");
-		}
-
 		if (NPC_MENU_ACTIONS.contains(entry.getType())) {
 			remapMenuEntryText(entry, npcListHashMap);
 		} else if (ITEM_MENU_ACTIONS.contains(entry.getType())) {
@@ -287,6 +277,7 @@ public class RewordManagerPlugin extends Plugin {
 		} else if (OBJECT_MENU_ACTIONS.contains(entry.getType())) {
 			remapMenuEntryText(entry, objectListHashMap);
 		}
+		remapOptionText(entry);
 	}
 
 }
