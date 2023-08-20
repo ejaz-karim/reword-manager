@@ -117,14 +117,12 @@ public class RewordManagerPlugin extends Plugin {
 	private void parseHashMap(String csv, HashMap<String, String> hashMap) {
 		if (csv.isEmpty())
 			return;
-
 		String[] pairs = csv.split("\n");
 		for (String pair : pairs) {
 			String[] kv = pair.split(",");
 			if (kv.length != 2)
 				continue;
 			hashMap.put(kv[0], kv[1]);
-
 		}
 	}
 
@@ -139,7 +137,7 @@ public class RewordManagerPlugin extends Plugin {
 		boolean containsKeyword = false;
 
 		for (String keyword : chatListHashMap.keySet()) {
-			Pattern pattern = Pattern.compile("(?<!\\.)" + "\\b" + keyword + "\\b" + "(?!\\.)");
+			Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword + "\\b(?!\\p{Punct})");
 			if (pattern.matcher(message).find()) {
 				containsKeyword = true;
 				break;
@@ -265,10 +263,23 @@ public class RewordManagerPlugin extends Plugin {
 	@Subscribe
 	protected void onMenuEntryAdded(MenuEntryAdded event) {
 		MenuEntry entry = event.getMenuEntry();
-		// String test = event.getOption();
-		// if (test.equals("Close")) {
-		// entry.setOption("Test");
-		// }
+		String test = event.getOption();
+		if (test.equals("Close")) {
+			entry.setOption("Test");
+		}
+		String test1 = event.getOption();
+		if (test1.equals("Wind Strike")) {
+			entry.setOption("Test");
+		}
+		String test2 = event.getOption();
+		if (test2.equals("Edgeville")) {
+			entry.setOption("Test3");
+		}
+		String test3 = event.getOption();
+		if (test3.equals("Cast")) {
+			entry.setOption("Test4");
+		}
+
 		if (NPC_MENU_ACTIONS.contains(entry.getType())) {
 			remapMenuEntryText(entry, npcListHashMap);
 		} else if (ITEM_MENU_ACTIONS.contains(entry.getType())) {
