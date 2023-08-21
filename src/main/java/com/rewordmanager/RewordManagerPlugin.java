@@ -31,8 +31,8 @@ import net.runelite.client.chat.ChatColorType;
 import net.runelite.client.chat.ChatMessageBuilder;
 
 @Slf4j
-@PluginDescriptor(name = "Reword Manager", description = "Manage lists to reword Chat messages, Items, NPCs, Objects", tags = {
-		"reword", "word", "rename", "replace", "acronym", "abbreviate", "chat", "message", "npc", "item", "object" })
+@PluginDescriptor(name = "Reword Manager", description = "Reword Chat messages, Items, NPCs, Objects, Options", tags = {
+		"reword", "word", "rename", "replace", "acronym", "abbreviate", "chat", "message", "npc", "item", "object", "option" })
 
 public class RewordManagerPlugin extends Plugin {
 	private final HashMap<String, String> chatListHashMap = new HashMap<>();
@@ -84,12 +84,10 @@ public class RewordManagerPlugin extends Plugin {
 
 	@Override
 	protected void shutDown() throws Exception {
-
 	}
 
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged gameStateChanged) {
-
 	}
 
 	@Provides
@@ -211,7 +209,6 @@ public class RewordManagerPlugin extends Plugin {
 	private void mapWidgetText(Widget[] childComponents) {
 		for (Widget component : childComponents) {
 			remapWidget(component);
-
 			String text = component.getText();
 			if (text.isEmpty()) {
 				continue;
