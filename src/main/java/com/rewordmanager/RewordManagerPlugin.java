@@ -32,7 +32,8 @@ import net.runelite.client.chat.ChatMessageBuilder;
 
 @Slf4j
 @PluginDescriptor(name = "Reword Manager", description = "Reword Chat messages, Items, NPCs, Objects, Options", tags = {
-		"reword", "word", "rename", "replace", "acronym", "abbreviate", "chat", "message", "npc", "item", "object", "option" })
+		"reword", "word", "rename", "replace", "acronym", "abbreviate", "chat", "message", "npc", "item", "object",
+		"option" })
 
 public class RewordManagerPlugin extends Plugin {
 	private final HashMap<String, String> chatListHashMap = new HashMap<>();
@@ -157,29 +158,29 @@ public class RewordManagerPlugin extends Plugin {
 		client.refreshChat();
 	}
 
-	// @Subscribe
-	// public void onOverheadTextChanged(OverheadTextChanged overheadText) {
-	// String message = overheadText.getOverheadText();
-	// boolean containsKeyword = false;
-	// for (String keyword : chatListHashMap.keySet()) {
-	// Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword +
-	// "\\b(?!\\p{Punct})");
-	// if (pattern.matcher(message).find()) {
-	// containsKeyword = true;
-	// break;
-	// }
-	// }
-	// if (!containsKeyword) {
-	// return;
-	// }
-	// String[] words = message.split(" ");
-	// String modified_message = "[Modified] ";
-	// for (String word : words) {
-	// String modifiedWord = chatListHashMap.getOrDefault(word, word);
-	// modified_message += modifiedWord + " ";
-	// }
-	// overheadText.getActor().setOverheadText(modified_message);
-	// }
+	@Subscribe
+	public void onOverheadTextChanged(OverheadTextChanged overheadText) {
+		String message = overheadText.getOverheadText();
+		boolean containsKeyword = false;
+		for (String keyword : chatListHashMap.keySet()) {
+			Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword +
+					"\\b(?!\\p{Punct})");
+			if (pattern.matcher(message).find()) {
+				containsKeyword = true;
+				break;
+			}
+		}
+		if (!containsKeyword) {
+			return;
+		}
+		String[] words = message.split(" ");
+		String modified_message = "[Modified] ";
+		for (String word : words) {
+			String modifiedWord = chatListHashMap.getOrDefault(word, word);
+			modified_message += modifiedWord + " ";
+		}
+		overheadText.getActor().setOverheadText(modified_message);
+	}
 
 	private void remapWidgetText(Widget component, String text, HashMap<String, String> map) {
 		for (Map.Entry<String, String> entry : map.entrySet()) {

@@ -35,7 +35,7 @@ public interface RewordManagerConfig extends Config {
 		return "";
 	}
 
-	@ConfigItem(keyName = "overheadText", name = "Overhead text", description = "", position = 6, section = rewordLists)
+	@ConfigItem(keyName = "overheadText", name = "Overhead Text", description = "", position = 6, section = rewordLists)
 	default boolean overheadText() {
 		return false;
 	}
