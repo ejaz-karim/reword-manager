@@ -160,26 +160,31 @@ public class RewordManagerPlugin extends Plugin {
 
 	@Subscribe
 	public void onOverheadTextChanged(OverheadTextChanged overheadText) {
-		String message = overheadText.getOverheadText();
-		boolean containsKeyword = false;
-		for (String keyword : chatListHashMap.keySet()) {
-			Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword +
-					"\\b(?!\\p{Punct})");
-			if (pattern.matcher(message).find()) {
-				containsKeyword = true;
-				break;
+		if (config.overheadText() == true) {
+			String message = overheadText.getOverheadText();
+			boolean containsKeyword = false;
+			for (String keyword : chatListHashMap.keySet()) {
+				Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword +
+						"\\b(?!\\p{Punct})");
+				if (pattern.matcher(message).find()) {
+					containsKeyword = true;
+					break;
+				}
 			}
-		}
-		if (!containsKeyword) {
+			if (!containsKeyword) {
+				return;
+			}
+			String[] words = message.split(" ");
+			String modified_message = "[Modified] ";
+			for (String word : words) {
+				String modifiedWord = chatListHashMap.getOrDefault(word, word);
+				modified_message += modifiedWord + " ";
+			}
+			overheadText.getActor().setOverheadText(modified_message);
+
+		} else {
 			return;
 		}
-		String[] words = message.split(" ");
-		String modified_message = "[Modified] ";
-		for (String word : words) {
-			String modifiedWord = chatListHashMap.getOrDefault(word, word);
-			modified_message += modifiedWord + " ";
-		}
-		overheadText.getActor().setOverheadText(modified_message);
 	}
 
 	private void remapWidgetText(Widget component, String text, HashMap<String, String> map) {
