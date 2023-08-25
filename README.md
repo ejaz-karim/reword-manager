@@ -8,7 +8,7 @@ This project uses Adoptium Eclipse Temurin 11 as its JDK.
 
 ## Introduction
 
-Reword Manager will allow for Chat messages, Items, NPCs, and Objects to be reworded.
+Reword Manager will allow for Chat messages, Items, NPCs, Objects, and Options to be reworded.
 
 ## Examples
 
