@@ -160,7 +160,7 @@ public class RewordManagerPlugin extends Plugin {
 
 	@Subscribe
 	public void onOverheadTextChanged(OverheadTextChanged overheadText) {
-		if (config.overheadText() == true) {
+		if (config.overheadText()) {
 			String message = overheadText.getOverheadText();
 			boolean containsKeyword = false;
 			for (String keyword : chatListHashMap.keySet()) {
