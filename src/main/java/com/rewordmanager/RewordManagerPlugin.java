@@ -164,8 +164,7 @@ public class RewordManagerPlugin extends Plugin {
 			String message = overheadText.getOverheadText();
 			boolean containsKeyword = false;
 			for (String keyword : chatListHashMap.keySet()) {
-				Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword +
-						"\\b(?!\\p{Punct})");
+				Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword + "\\b(?!\\p{Punct})");
 				if (pattern.matcher(message).find()) {
 					containsKeyword = true;
 					break;
@@ -187,15 +186,6 @@ public class RewordManagerPlugin extends Plugin {
 		}
 	}
 
-	private void remapWidgetText(Widget component, String text, HashMap<String, String> map) {
-		for (Map.Entry<String, String> entry : map.entrySet()) {
-			if (text.equalsIgnoreCase(entry.getKey())) {
-				component.setText(text.replace(entry.getKey(), entry.getValue()));
-				return;
-			}
-		}
-	}
-
 	private void remapMenuEntryText(MenuEntry menuEntry, HashMap<String, String> map) {
 		String target = menuEntry.getTarget();
 		NPC npc = menuEntry.getNpc();
@@ -209,49 +199,6 @@ public class RewordManagerPlugin extends Plugin {
 			if (cleanTarget.equals(entry.getKey())) {
 				menuEntry.setTarget(target.replace(entry.getKey(), entry.getValue()));
 			}
-		}
-	}
-
-	private void mapWidgetText(Widget[] childComponents) {
-		for (Widget component : childComponents) {
-			remapWidget(component);
-			String text = component.getText();
-			if (text.isEmpty()) {
-				continue;
-			}
-			remapWidgetText(component, text, npcListHashMap);
-			remapWidgetText(component, text, itemListHashMap);
-			remapWidgetText(component, text, objectListHashMap);
-			remapWidgetText(component, text, optionListHashMap);
-		}
-	}
-
-	private void remapWidget(Widget widget) {
-		final int groupId = WidgetInfo.TO_GROUP(widget.getId());
-		final int CHAT_MESSAGE = 162, PRIVATE_MESSAGE = 163, FRIENDS_LIST = 429;
-
-		if (groupId == CHAT_MESSAGE || groupId == PRIVATE_MESSAGE || groupId == FRIENDS_LIST) {
-			return;
-		}
-
-		Widget[] children = widget.getDynamicChildren();
-		if (children == null) {
-			return;
-		}
-
-		Widget[] childComponents = widget.getDynamicChildren();
-		if (childComponents != null) {
-			mapWidgetText(childComponents);
-		}
-
-		childComponents = widget.getStaticChildren();
-		if (childComponents != null) {
-			mapWidgetText(childComponents);
-		}
-
-		childComponents = widget.getNestedChildren();
-		if (childComponents != null) {
-			mapWidgetText(childComponents);
 		}
 	}
 
@@ -274,5 +221,4 @@ public class RewordManagerPlugin extends Plugin {
 		}
 		remapOptionText(entry);
 	}
-
 }
