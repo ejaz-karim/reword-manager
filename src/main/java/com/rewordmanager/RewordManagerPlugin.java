@@ -133,7 +133,9 @@ public class RewordManagerPlugin extends Plugin {
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage) {
 		String message = chatMessage.getMessage();
-		checkMessage(message);
+		if (!checkMessage(message)) {
+			return;
+		}
 		final ChatMessageBuilder builder = new ChatMessageBuilder();
 		builder.append(ChatColorType.HIGHLIGHT).append("[Modified] ");
 
@@ -152,7 +154,9 @@ public class RewordManagerPlugin extends Plugin {
 	public void onOverheadTextChanged(OverheadTextChanged overheadText) {
 		if (config.overheadText()) {
 			String message = overheadText.getOverheadText();
-			checkMessage(message);
+			if (!checkMessage(message)) {
+				return;
+			}
 			String[] words = message.split(" ");
 			String modified_message = "[Modified] ";
 			for (String word : words) {
@@ -165,18 +169,17 @@ public class RewordManagerPlugin extends Plugin {
 		}
 	}
 
-	private void checkMessage(String message) {
-		boolean containsKeyword = false;
+	private boolean checkMessage(String message) {
+		if (message.contains("</col>") || message.contains("<br>")) {
+			return false;
+		}
 		for (String keyword : chatListHashMap.keySet()) {
 			Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword + "\\b(?!\\p{Punct})");
 			if (pattern.matcher(message).find()) {
-				containsKeyword = true;
-				break;
+				return true;
 			}
 		}
-		if (!containsKeyword || message.contains("</col>") || message.contains("<br>")) {
-			return;
-		}
+		return false;
 	}
 
 	private void remapMenuEntryText(MenuEntry menuEntry, HashMap<String, String> map) {
