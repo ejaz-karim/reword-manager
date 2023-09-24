@@ -133,17 +133,7 @@ public class RewordManagerPlugin extends Plugin {
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage) {
 		String message = chatMessage.getMessage();
-		boolean containsKeyword = false;
-		for (String keyword : chatListHashMap.keySet()) {
-			Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword + "\\b(?!\\p{Punct})");
-			if (pattern.matcher(message).find()) {
-				containsKeyword = true;
-				break;
-			}
-		}
-		if (!containsKeyword || message.contains("</col>") || message.contains("<br>")) {
-			return;
-		}
+		checkMessage(message);
 		final ChatMessageBuilder builder = new ChatMessageBuilder();
 		builder.append(ChatColorType.HIGHLIGHT).append("[Modified] ");
 
@@ -162,17 +152,7 @@ public class RewordManagerPlugin extends Plugin {
 	public void onOverheadTextChanged(OverheadTextChanged overheadText) {
 		if (config.overheadText()) {
 			String message = overheadText.getOverheadText();
-			boolean containsKeyword = false;
-			for (String keyword : chatListHashMap.keySet()) {
-				Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword + "\\b(?!\\p{Punct})");
-				if (pattern.matcher(message).find()) {
-					containsKeyword = true;
-					break;
-				}
-			}
-			if (!containsKeyword) {
-				return;
-			}
+			checkMessage(message);
 			String[] words = message.split(" ");
 			String modified_message = "[Modified] ";
 			for (String word : words) {
@@ -180,8 +160,21 @@ public class RewordManagerPlugin extends Plugin {
 				modified_message += modifiedWord + " ";
 			}
 			overheadText.getActor().setOverheadText(modified_message);
-
 		} else {
+			return;
+		}
+	}
+
+	private void checkMessage(String message) {
+		boolean containsKeyword = false;
+		for (String keyword : chatListHashMap.keySet()) {
+			Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword + "\\b(?!\\p{Punct})");
+			if (pattern.matcher(message).find()) {
+				containsKeyword = true;
+				break;
+			}
+		}
+		if (!containsKeyword || message.contains("</col>") || message.contains("<br>")) {
 			return;
 		}
 	}
