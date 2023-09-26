@@ -88,40 +88,6 @@ public class RewordManagerPlugin extends Plugin {
 	public void onGameStateChanged(GameStateChanged gameStateChanged) {
 	}
 
-	@Provides
-	RewordManagerConfig provideConfig(ConfigManager configManager) {
-		return configManager.getConfig(RewordManagerConfig.class);
-	}
-
-	private void parseConfig() {
-		chatListHashMap.clear();
-		npcListHashMap.clear();
-		itemListHashMap.clear();
-		objectListHashMap.clear();
-		optionListHashMap.clear();
-
-		try {
-			parseHashMap(config.chatList(), chatListHashMap);
-			parseHashMap(config.npcList(), npcListHashMap);
-			parseHashMap(config.itemList(), itemListHashMap);
-			parseHashMap(config.objectList(), objectListHashMap);
-			parseHashMap(config.optionList(), optionListHashMap);
-		} catch (Exception ignored) {
-		}
-	}
-
-	private void parseHashMap(String csv, HashMap<String, String> hashMap) {
-		if (csv.isEmpty())
-			return;
-		String[] pairs = csv.split("\n");
-		for (String pair : pairs) {
-			String[] kv = pair.split(",");
-			if (kv.length != 2)
-				continue;
-			hashMap.put(kv[0], kv[1]);
-		}
-	}
-
 	@Subscribe
 	protected void onConfigChanged(ConfigChanged event) {
 		parseConfig();
@@ -166,6 +132,53 @@ public class RewordManagerPlugin extends Plugin {
 		}
 	}
 
+	@Subscribe
+	protected void onMenuEntryAdded(MenuEntryAdded event) {
+		MenuEntry entry = event.getMenuEntry();
+		if (NPC_MENU_ACTIONS.contains(entry.getType())) {
+			remapMenuEntryText(entry, npcListHashMap);
+		} else if (ITEM_MENU_ACTIONS.contains(entry.getType())) {
+			remapMenuEntryText(entry, itemListHashMap);
+		} else if (OBJECT_MENU_ACTIONS.contains(entry.getType())) {
+			remapMenuEntryText(entry, objectListHashMap);
+		}
+		System.out.println(entry.getOption());
+		remapOptionText(entry);
+	}
+
+	@Provides
+	RewordManagerConfig provideConfig(ConfigManager configManager) {
+		return configManager.getConfig(RewordManagerConfig.class);
+	}
+
+	private void parseConfig() {
+		chatListHashMap.clear();
+		npcListHashMap.clear();
+		itemListHashMap.clear();
+		objectListHashMap.clear();
+		optionListHashMap.clear();
+		try {
+			parseHashMap(config.chatList(), chatListHashMap);
+			parseHashMap(config.npcList(), npcListHashMap);
+			parseHashMap(config.itemList(), itemListHashMap);
+			parseHashMap(config.objectList(), objectListHashMap);
+			parseHashMap(config.optionList(), optionListHashMap);
+		} catch (Exception ignored) {
+		}
+	}
+
+	private void parseHashMap(String csv, HashMap<String, String> hashMap) {
+		if (csv.isEmpty())
+			return;
+		String[] pairs = csv.split("\n");
+		for (String pair : pairs) {
+			String[] kv = pair.split(",");
+			if (kv.length != 2)
+				continue;
+			hashMap.put(kv[0], kv[1]);
+		}
+	}
+
 	private boolean checkMessage(String message) {
 		if (message.contains("</col>") || message.contains("<br>")) {
 			return false;
@@ -200,18 +213,5 @@ public class RewordManagerPlugin extends Plugin {
 		if (optionListHashMap.containsKey(option)) {
 			event.setOption(optionListHashMap.get(option));
 		}
-	}
-
-	@Subscribe
-	protected void onMenuEntryAdded(MenuEntryAdded event) {
-		MenuEntry entry = event.getMenuEntry();
-		if (NPC_MENU_ACTIONS.contains(entry.getType())) {
-			remapMenuEntryText(entry, npcListHashMap);
-		} else if (ITEM_MENU_ACTIONS.contains(entry.getType())) {
-			remapMenuEntryText(entry, itemListHashMap);
-		} else if (OBJECT_MENU_ACTIONS.contains(entry.getType())) {
-			remapMenuEntryText(entry, objectListHashMap);
-		}
-		remapOptionText(entry);
 	}
 }
