@@ -142,7 +142,6 @@ public class RewordManagerPlugin extends Plugin {
 		} else if (OBJECT_MENU_ACTIONS.contains(entry.getType())) {
 			remapMenuEntryText(entry, objectListHashMap);
 		}
-		System.out.println(entry.getOption());
 		remapOptionText(entry);
 	}
 
@@ -209,9 +208,8 @@ public class RewordManagerPlugin extends Plugin {
 	}
 
 	private void remapOptionText(MenuEntry event) {
-		String option = event.getOption();
-		if (optionListHashMap.containsKey(option)) {
-			event.setOption(optionListHashMap.get(option));
+		if (optionListHashMap.containsKey(event.getOption())) {
+			event.setOption(optionListHashMap.get(event.getOption()));
 		}
 	}
 }
