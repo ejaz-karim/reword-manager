@@ -110,6 +110,8 @@ public class RewordManagerPlugin extends Plugin {
 		String response = builder.build();
 		MessageNode messageNode = chatMessage.getMessageNode();
 		messageNode.setRuneLiteFormatMessage(response);
+		messageNode.setSender("SENDER"); //clan name
+		messageNode.setName("NAME");
 		client.refreshChat();
 	}
 
