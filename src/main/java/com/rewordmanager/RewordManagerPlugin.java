@@ -38,6 +38,7 @@ public class RewordManagerPlugin extends Plugin {
 	private final HashMap<String, String> itemListHashMap = new HashMap<>();
 	private final HashMap<String, String> objectListHashMap = new HashMap<>();
 	private final HashMap<String, String> optionListHashMap = new HashMap<>();
+	private final HashMap<String, String> nameListHashMap = new HashMap<>();
 
 	private static final Set<MenuAction> NPC_MENU_ACTIONS = ImmutableSet.of(
 			MenuAction.NPC_FIRST_OPTION,
@@ -158,12 +159,14 @@ public class RewordManagerPlugin extends Plugin {
 		itemListHashMap.clear();
 		objectListHashMap.clear();
 		optionListHashMap.clear();
+		nameListHashMap.clear();
 		try {
 			parseHashMap(config.chatList(), chatListHashMap);
 			parseHashMap(config.npcList(), npcListHashMap);
 			parseHashMap(config.itemList(), itemListHashMap);
 			parseHashMap(config.objectList(), objectListHashMap);
 			parseHashMap(config.optionList(), optionListHashMap);
+			parseHashMap(config.optionList(), nameListHashMap);
 		} catch (Exception ignored) {
 		}
 	}
