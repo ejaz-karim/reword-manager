@@ -35,12 +35,17 @@ public interface RewordManagerConfig extends Config {
 		return "";
 	}
 
-	@ConfigItem(keyName = "nameList", name = "Name List", description = "Use CSV format: x,y (case-sensitive). Each entry uses a new line.<br>For rewording Player and Clan names.", position = 6, section = rewordLists)
-	default String nameList() {
+	@ConfigItem(keyName = "playerList", name = "Player List", description = "Use CSV format: x,y (case-sensitive). Each entry uses a new line.<br>For rewording Player names.", position = 6, section = rewordLists)
+	default String playerList() {
 		return "";
 	}
 
-	@ConfigItem(keyName = "overheadText", name = "Overhead Text", description = "", position = 7)
+	@ConfigItem(keyName = "clanList", name = "Clan List", description = "Use CSV format: x,y (case-sensitive). Each entry uses a new line.<br>For rewording Clan and Chat-channel names.", position = 7, section = rewordLists)
+	default String clanList() {
+		return "";
+	}
+
+	@ConfigItem(keyName = "overheadText", name = "Overhead Text", description = "", position = 8)
 	default boolean overheadText() {
 		return true;
 	}

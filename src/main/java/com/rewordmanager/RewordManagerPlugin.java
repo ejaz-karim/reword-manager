@@ -38,7 +38,8 @@ public class RewordManagerPlugin extends Plugin {
 	private final HashMap<String, String> itemListHashMap = new HashMap<>();
 	private final HashMap<String, String> objectListHashMap = new HashMap<>();
 	private final HashMap<String, String> optionListHashMap = new HashMap<>();
-	private final HashMap<String, String> nameListHashMap = new HashMap<>();
+	private final HashMap<String, String> playerListHashMap = new HashMap<>();
+	private final HashMap<String, String> clanListHashMap = new HashMap<>();
 
 	private static final Set<MenuAction> NPC_MENU_ACTIONS = ImmutableSet.of(
 			MenuAction.NPC_FIRST_OPTION,
@@ -96,24 +97,24 @@ public class RewordManagerPlugin extends Plugin {
 
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage) {
+		String clanName = chatMessage.getSender();
+		String playerName = chatMessage.getName();
 		String message = chatMessage.getMessage();
 		if (!checkMessage(message)) {
 			return;
+		} else {
+			final ChatMessageBuilder builder = new ChatMessageBuilder();
+			builder.append(ChatColorType.HIGHLIGHT).append("[Modified] ");
+			String[] words = message.split(" ");
+			for (String word : words) {
+				String modifiedWord = chatListHashMap.getOrDefault(word, word);
+				builder.append(ChatColorType.NORMAL).append(modifiedWord).append(" ");
+			}
+			String response = builder.build();
+			MessageNode messageNode = chatMessage.getMessageNode();
+			messageNode.setRuneLiteFormatMessage(response);
+			client.refreshChat();
 		}
-		final ChatMessageBuilder builder = new ChatMessageBuilder();
-		builder.append(ChatColorType.HIGHLIGHT).append("[Modified] ");
-
-		String[] words = message.split(" ");
-		for (String word : words) {
-			String modifiedWord = chatListHashMap.getOrDefault(word, word);
-			builder.append(ChatColorType.NORMAL).append(modifiedWord).append(" ");
-		}
-		String response = builder.build();
-		MessageNode messageNode = chatMessage.getMessageNode();
-		messageNode.setRuneLiteFormatMessage(response);
-		messageNode.setSender("SENDER"); //clan name
-		messageNode.setName("NAME");
-		client.refreshChat();
 	}
 
 	@Subscribe
@@ -159,14 +160,16 @@ public class RewordManagerPlugin extends Plugin {
 		itemListHashMap.clear();
 		objectListHashMap.clear();
 		optionListHashMap.clear();
-		nameListHashMap.clear();
+		playerListHashMap.clear();
+		clanListHashMap.clear();
 		try {
 			parseHashMap(config.chatList(), chatListHashMap);
 			parseHashMap(config.npcList(), npcListHashMap);
 			parseHashMap(config.itemList(), itemListHashMap);
 			parseHashMap(config.objectList(), objectListHashMap);
 			parseHashMap(config.optionList(), optionListHashMap);
-			parseHashMap(config.optionList(), nameListHashMap);
+			parseHashMap(config.playerList(), playerListHashMap);
+			parseHashMap(config.clanList(), clanListHashMap);
 		} catch (Exception ignored) {
 		}
 	}
@@ -193,6 +196,14 @@ public class RewordManagerPlugin extends Plugin {
 				return true;
 			}
 		}
+		return false;
+	}
+
+	private boolean checkPlayerName(String player) {
+		return false;
+	}
+
+	private boolean checkClanName(String clan) {
 		return false;
 	}
 
