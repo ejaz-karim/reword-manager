@@ -100,19 +100,43 @@ public class RewordManagerPlugin extends Plugin {
 		String clanName = chatMessage.getSender();
 		String playerName = chatMessage.getName();
 		String message = chatMessage.getMessage();
-		if (!checkMessage(message)) {
+
+		boolean isMessageModified = checkMessage(message);
+		boolean isPlayerNameModified = checkPlayerName(playerName);
+		boolean isClanNameModified = checkClanName(clanName);
+
+		if (!isMessageModified && !isPlayerNameModified && !isClanNameModified) {
 			return;
 		} else {
 			final ChatMessageBuilder builder = new ChatMessageBuilder();
 			builder.append(ChatColorType.HIGHLIGHT).append("[Modified] ");
+
 			String[] words = message.split(" ");
 			for (String word : words) {
 				String modifiedWord = chatListHashMap.getOrDefault(word, word);
 				builder.append(ChatColorType.NORMAL).append(modifiedWord).append(" ");
 			}
-			String response = builder.build();
+
 			MessageNode messageNode = chatMessage.getMessageNode();
+			messageNode.setName(playerListHashMap.getOrDefault(playerName, playerName));
+			messageNode.setSender(clanListHashMap.getOrDefault(clanName, clanName));
+			String response = builder.build();
 			messageNode.setRuneLiteFormatMessage(response);
+
+			for (HashMap.Entry<String, String> entry : clanListHashMap.entrySet()) {
+				System.out.println("Key in clanListHashMap: [" + entry.getKey() + "] Value: [" + entry.getValue() + "]");
+			}
+			
+			for (HashMap.Entry<String, String> entry : playerListHashMap.entrySet()) {
+				System.out.println("Key in playerListHashMap: [" + entry.getKey() + "] Value: [" + entry.getValue() + "]");
+			}
+			
+			System.out.println("Player Name before retrieval: [" + playerName + "]");
+			System.out.println("Clan Name before retrieval: [" + clanName + "]");
+			System.out.println("Player Name from playerListHashMap: [" + playerListHashMap.get(playerName) + "]");
+			System.out.println("Clan Name from clanListHashMap: [" + clanListHashMap.get(clanName) + "]");
+			
+
 			client.refreshChat();
 		}
 	}
@@ -200,11 +224,11 @@ public class RewordManagerPlugin extends Plugin {
 	}
 
 	private boolean checkPlayerName(String player) {
-		return false;
+		return playerListHashMap.containsKey(player);
 	}
 
 	private boolean checkClanName(String clan) {
-		return false;
+		return clanListHashMap.containsKey(clan);
 	}
 
 	private void remapMenuEntryText(MenuEntry menuEntry, HashMap<String, String> map) {
