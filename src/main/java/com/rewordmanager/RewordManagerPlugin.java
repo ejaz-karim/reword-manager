@@ -97,48 +97,53 @@ public class RewordManagerPlugin extends Plugin {
 
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage) {
-		String clanName = chatMessage.getSender();
-		String playerName = chatMessage.getName();
+		MessageNode messageNode = chatMessage.getMessageNode();
+
+		String clan = messageNode.getSender();
+		String player = messageNode.getName();
+		// String message = messageNode.getValue();
 		String message = chatMessage.getMessage();
 
 		boolean isMessageModified = checkMessage(message);
-		boolean isPlayerNameModified = checkPlayerName(playerName);
-		boolean isClanNameModified = checkClanName(clanName);
+		boolean isPlayerModified = checkPlayerName(player);
+		boolean isClanModified = checkClanName(clan);
 
-		if (!isMessageModified && !isPlayerNameModified && !isClanNameModified) {
+		System.out.println("message " + isMessageModified);
+		System.out.println("player " + isPlayerModified);
+		System.out.println("clan "+ isClanModified);
+
+		// if (!isMessageModified && !isPlayerModified && !isClanModified) {
+		// 	return;
+		// }
+		if (!isMessageModified) {
 			return;
-		} else {
-			final ChatMessageBuilder builder = new ChatMessageBuilder();
-			builder.append(ChatColorType.HIGHLIGHT).append("[Modified] ");
-
-			String[] words = message.split(" ");
-			for (String word : words) {
-				String modifiedWord = chatListHashMap.getOrDefault(word, word);
-				builder.append(ChatColorType.NORMAL).append(modifiedWord).append(" ");
-			}
-
-			MessageNode messageNode = chatMessage.getMessageNode();
-			messageNode.setName(playerListHashMap.getOrDefault(playerName, playerName));
-			messageNode.setSender(clanListHashMap.getOrDefault(clanName, clanName));
-			String response = builder.build();
-			messageNode.setRuneLiteFormatMessage(response);
-
-			for (HashMap.Entry<String, String> entry : clanListHashMap.entrySet()) {
-				System.out.println("Key in clanListHashMap: [" + entry.getKey() + "] Value: [" + entry.getValue() + "]");
-			}
-			
-			for (HashMap.Entry<String, String> entry : playerListHashMap.entrySet()) {
-				System.out.println("Key in playerListHashMap: [" + entry.getKey() + "] Value: [" + entry.getValue() + "]");
-			}
-			
-			System.out.println("Player Name before retrieval: [" + playerName + "]");
-			System.out.println("Clan Name before retrieval: [" + clanName + "]");
-			System.out.println("Player Name from playerListHashMap: [" + playerListHashMap.get(playerName) + "]");
-			System.out.println("Clan Name from clanListHashMap: [" + clanListHashMap.get(clanName) + "]");
-			
-
-			client.refreshChat();
 		}
+
+
+		final ChatMessageBuilder builder = new ChatMessageBuilder();
+		builder.append(ChatColorType.HIGHLIGHT).append("[Modified] ");
+
+		String[] words = message.split(" ");
+		for (String word : words) {
+			String modifiedWord = chatListHashMap.getOrDefault(word, word);
+			builder.append(ChatColorType.NORMAL).append(modifiedWord).append(" ");
+		}
+
+
+
+		String response = builder.build();
+		messageNode.setRuneLiteFormatMessage(response);
+
+		for (HashMap.Entry<String, String> entry : playerListHashMap.entrySet()) {
+			messageNode.setName(entry.getValue());
+		}
+
+		for (HashMap.Entry<String, String> entry : clanListHashMap.entrySet()) {
+			messageNode.setSender(entry.getValue());
+		}
+
+
+		client.refreshChat();
 	}
 
 	@Subscribe
@@ -198,15 +203,14 @@ public class RewordManagerPlugin extends Plugin {
 		}
 	}
 
-	private void parseHashMap(String csv, HashMap<String, String> hashMap) {
-		if (csv.isEmpty())
+	public static void parseHashMap(String csv, HashMap<String, String> hashMap) {
+		if (csv.isEmpty()) {
 			return;
-		String[] pairs = csv.split("\n");
-		for (String pair : pairs) {
-			String[] kv = pair.split(",");
-			if (kv.length != 2)
-				continue;
-			hashMap.put(kv[0], kv[1]);
+		}
+		String[] lines = csv.split("\n");
+		for (String line : lines) {
+			String[] keyValue = line.split(",");
+			hashMap.put(keyValue[0], keyValue[1]);
 		}
 	}
 
@@ -224,11 +228,29 @@ public class RewordManagerPlugin extends Plugin {
 	}
 
 	private boolean checkPlayerName(String player) {
-		return playerListHashMap.containsKey(player);
+		if (player.contains("</col>") || player.contains("<br>")) {
+			return false;
+		}
+		for (String keyword : playerListHashMap.keySet()) {
+			Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword + "\\b(?!\\p{Punct})");
+			if (pattern.matcher(player).find()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private boolean checkClanName(String clan) {
-		return clanListHashMap.containsKey(clan);
+		if (clan.contains("</col>") || clan.contains("<br>")) {
+			return false;
+		}
+		for (String keyword : clanListHashMap.keySet()) {
+			Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword + "\\b(?!\\p{Punct})");
+			if (pattern.matcher(clan).find()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void remapMenuEntryText(MenuEntry menuEntry, HashMap<String, String> map) {
