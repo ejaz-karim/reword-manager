@@ -2,11 +2,9 @@ package com.rewordmanager;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
-
 import java.util.HashMap;
 import java.util.Set;
 import java.util.regex.Pattern;
-
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
@@ -28,9 +26,9 @@ import net.runelite.client.chat.ChatColorType;
 import net.runelite.client.chat.ChatMessageBuilder;
 
 @Slf4j
-@PluginDescriptor(name = "Reword Manager", description = "Reword Chat messages, Items, NPCs, Objects, Options", tags = {
+@PluginDescriptor(name = "Reword Manager", description = "Reword Chat messages, Items, NPCs, Objects, Options, Players, Clans", tags = {
 		"reword", "word", "text", "rename", "replace", "acronym", "abbreviate", "chat", "message", "npc", "item",
-		"object", "option" })
+		"object", "option", "player", "clan" })
 
 public class RewordManagerPlugin extends Plugin {
 	private final HashMap<String, String> chatListHashMap = new HashMap<>();
@@ -110,6 +108,14 @@ public class RewordManagerPlugin extends Plugin {
 		final ChatMessageBuilder builder = new ChatMessageBuilder();
 		builder.append(ChatColorType.HIGHLIGHT).append("[Modified] ");
 
+		for (String key : clanListHashMap.keySet()) {
+			messageNode.setSender(clanListHashMap.getOrDefault(key, key));
+		}
+
+		for (String key : playerListHashMap.keySet()) {
+			messageNode.setName(playerListHashMap.getOrDefault(key, key));
+		}
+
 		String[] words = message.split(" ");
 		for (String word : words) {
 			String modifiedWord = chatListHashMap.getOrDefault(word, word);
@@ -118,14 +124,6 @@ public class RewordManagerPlugin extends Plugin {
 
 		String response = builder.build();
 		messageNode.setRuneLiteFormatMessage(response);
-
-		for (String key : playerListHashMap.keySet()) {
-			messageNode.setName(playerListHashMap.getOrDefault(key, key));
-		}
-
-		for (String key : clanListHashMap.keySet()) {
-			messageNode.setSender(clanListHashMap.getOrDefault(key, key));
-		}
 
 		client.refreshChat();
 	}
@@ -194,9 +192,7 @@ public class RewordManagerPlugin extends Plugin {
 		String[] lines = csv.split("\n");
 		for (String line : lines) {
 			String[] keyValue = line.split(",", 2);
-			if (keyValue.length == 2) {
-				hashMap.put(keyValue[0], keyValue[1]);
-			}
+			hashMap.put(keyValue[0], keyValue[1]);
 		}
 	}
 

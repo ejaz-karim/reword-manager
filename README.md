@@ -8,7 +8,7 @@ This project uses Adoptium Eclipse Temurin 11 as its JDK.
 
 ## Introduction
 
-Reword Manager will allow for Chat messages, Items, NPCs, Objects, and Options to be reworded.
+Reword Manager will allow for Chat messages, Items, NPCs, Objects, Options, Player and Clan names to be reworded.
 
 ## Examples
 
@@ -17,9 +17,11 @@ NPC List
 	Wise Old Man,Example
 	Vannaka,Example1
 
-Entering data in the lists must be in the CSV format ***x,y*** and is case-sensitive. You must use a new line for new entries.
+Entering data in the lists must be in the CSV format ***x,y*** and is case-sensitive. You **MUST** use a new line for new entries.
 
 ## Exceptions
+
+Known bug: Rewording player or clan names may not work if the name contains a space.
 
 Avoid using special characters to remap in the Chat list.
 
