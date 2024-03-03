@@ -16,18 +16,16 @@ NPC List
 
 	Wise Old Man,Example
 	Vannaka,Example1
+	Bob,Example2
 
 Entering data in the lists must be in the CSV format ***x,y*** and is case-sensitive. You **MUST** use a new line for new entries.
 
 ## Exceptions
 
-Known bug: Rewording player or clan names may not work if the name contains a space.
+Known bug: Rewording clan names may not work if the name contains a space.
 
-Avoid using special characters to remap in the Chat list.
+Messages containing `</col>` or `<br>` will not be modified. E.g. Checking Serpentine helm scales, Casting a line in Barbarian fishing.
 
-Game messages containing `</col>` or `<br>` will not be modified. E.g. Checking Serpentine helm scales, Casting a line in Barbarian fishing.
+Some special characters in the Chat list may not be reworded.
 
-If your modified message contains `<`,`>` and you haven't used it in a replacement word, it will appear as
-
-	<gt> 
-	<lt>
+If you are trying to modify a message in the Chat list containing `<`,`>` it will appear as `<lt>`,`<gt>` and may not be reworded.

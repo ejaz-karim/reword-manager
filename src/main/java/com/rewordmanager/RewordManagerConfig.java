@@ -12,7 +12,7 @@ public interface RewordManagerConfig extends Config {
 
 	@ConfigItem(keyName = "chatList", name = "Chat List", description = "Use CSV format: x,y (case-sensitive). Each entry uses a new line.<br>For rewording chat messages.", position = 1, section = rewordLists)
 	default String chatList() {
-		return "Example0,Example1\nExample2,Example3";
+		return "Example,Example1\nExample1,Example2\nExample2,Example3";
 	}
 
 	@ConfigItem(keyName = "npcList", name = "NPC List", description = "Use CSV format: x,y (case-sensitive). Each entry uses a new line.<br>For rewording NPCs.", position = 2, section = rewordLists)
