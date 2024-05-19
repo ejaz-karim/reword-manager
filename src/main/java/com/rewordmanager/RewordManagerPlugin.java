@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.regex.Pattern;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
@@ -200,9 +199,9 @@ public class RewordManagerPlugin extends Plugin {
 		if (message.contains("</col>") || message.contains("<br>")) {
 			return false;
 		}
-		for (String keyword : chatListHashMap.keySet()) {
-			Pattern pattern = Pattern.compile("(?<!\\p{Punct})\\b" + keyword + "\\b(?!\\p{Punct})");
-			if (pattern.matcher(message).find()) {
+		String[] words = message.split("\\s+");
+		for (String word : words) {
+			if (chatListHashMap.containsKey(word)) {
 				return true;
 			}
 		}
