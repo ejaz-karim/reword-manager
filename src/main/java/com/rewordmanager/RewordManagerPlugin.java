@@ -107,13 +107,9 @@ public class RewordManagerPlugin extends Plugin {
 		final ChatMessageBuilder builder = new ChatMessageBuilder();
 		builder.append(ChatColorType.HIGHLIGHT).append("[Modified] ");
 
-		for (String key : clanListHashMap.keySet()) {
-			messageNode.setSender(clanListHashMap.getOrDefault(key, key));
-		}
+		messageNode.setSender(clanListHashMap.getOrDefault(clan, clan));
 
-		for (String key : playerListHashMap.keySet()) {
-			messageNode.setName(playerListHashMap.getOrDefault(key, key));
-		}
+		messageNode.setName(playerListHashMap.getOrDefault(player, player));
 
 		String[] words = message.split("\\s");
 		for (String word : words) {
