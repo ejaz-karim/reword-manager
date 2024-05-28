@@ -16,9 +16,10 @@ NPC List
 
 	Wise Old Man,Example
 	Vannaka,Example1
-	Bob,Example2
+ 	Bob,Example2
+ 	Zaff,<col=ff0000>Zaff</col>
 
-Entering data in the lists must be in the CSV format ***x,y*** and is case-sensitive. You **MUST** use a new line for new entries.
+Entering data in the lists must be in the CSV format ***x,y*** and is case-sensitive. You **MUST** use a new line for new entries. It is possible to recolour the names of NPCs, Items, etc. with HTML Hexadecimal colour codes.
 
 ## Exceptions
 
