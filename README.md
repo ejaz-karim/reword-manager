@@ -22,7 +22,7 @@ Entering data in the lists must be in the CSV format ***x,y*** and is case-sensi
 
 ## Exceptions
 
-Known bug: Rewording player & clan names may not work if the name contains a space.
+Known bug: Rewording player & clan names may not work if the name contains a space. Rewording player names may not work if the player is an ironman.
 
 Messages containing `</col>` or `<br>` will not be modified. E.g. Checking Serpentine helm scales, Casting a line in Barbarian fishing.
 
