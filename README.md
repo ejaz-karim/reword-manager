@@ -21,7 +21,7 @@ NPC List
 
 Entering data in the lists must be in the CSV format ***x,y*** and is case-sensitive. You **MUST** use a new line for new entries. It is possible to recolour the names of NPCs, Items, etc. with HTML Hexadecimal colour codes.
 
-## Exceptions
+## Exceptions and Limitations
 
 Known bug: Rewording player & clan names may not work if the name contains a space. Rewording player names may not work if the player is an ironman.
 
@@ -30,3 +30,6 @@ Messages containing `</col>` or `<br>` will not be modified. E.g. Checking Serpe
 Some special characters in the Chat list may not be reworded.
 
 If you are trying to modify a message in the Chat list containing `<`,`>` it will appear as `<lt>`,`<gt>` and may not be reworded.
+
+You can't use Swap left click teleport with the Menu Entry Swapper plugin if you have reworded the option text for the teleport that is selected as the left click option.
+Rewording the option text "Teleport" or "Teleports" to something else will break the submenu with the Menu Entry Swapper plugin. These issues are with Menu Entry Swapper or RuneLite.
