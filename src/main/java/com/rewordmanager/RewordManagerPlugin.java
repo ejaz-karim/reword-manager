@@ -15,7 +15,6 @@ import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.OverheadTextChanged;
-import net.runelite.api.events.PostMenuSort;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
@@ -69,10 +68,6 @@ public class RewordManagerPlugin extends Plugin {
 			MenuAction.WIDGET_TARGET_ON_GAME_OBJECT,
 			MenuAction.EXAMINE_OBJECT);
 
-	// private static final Set<MenuAction> RUNELITE_MENU_ACTIONS = ImmutableSet.of(
-	// 		MenuAction.RUNELITE_SUBMENU,
-	// 		MenuAction.RUNELITE_SUBMENU_WIDGET);
-
 	@Inject
 	private Client client;
 
@@ -95,10 +90,6 @@ public class RewordManagerPlugin extends Plugin {
 	@Subscribe
 	protected void onConfigChanged(ConfigChanged event) {
 		parseConfig();
-	}
-
-	@Subscribe(priority = -1)
-	public void onPostMenuSort(PostMenuSort postMenuSort) {
 	}
 
 	@Subscribe
@@ -154,6 +145,12 @@ public class RewordManagerPlugin extends Plugin {
 	@Subscribe
 	protected void onMenuEntryAdded(MenuEntryAdded event) {
 		MenuEntry entry = event.getMenuEntry();
+
+		if (!optionListHashMap.isEmpty()) {
+			remapOptionText(entry);
+			remapSubmenuOptionText();
+		}
+
 		if (NPC_MENU_ACTIONS.contains(entry.getType())) {
 			remapMenuEntryText(entry, npcListHashMap);
 		} else if (ITEM_MENU_ACTIONS.contains(entry.getType())) {
@@ -161,11 +158,6 @@ public class RewordManagerPlugin extends Plugin {
 		} else if (OBJECT_MENU_ACTIONS.contains(entry.getType())) {
 			remapMenuEntryText(entry, objectListHashMap);
 		}
-		// else if (RUNELITE_MENU_ACTIONS.contains(entry.getType())) {
-		// 	remapMenuEntryText(entry, optionListHashMap);
-		// }
-
-		remapOptionText(entry);
 	}
 
 	@Provides
@@ -246,4 +238,15 @@ public class RewordManagerPlugin extends Plugin {
 			event.setOption(optionListHashMap.get(event.getOption()));
 		}
 	}
+
+	private void remapSubmenuOptionText() {
+		MenuEntry[] entries = client.getMenuEntries();
+		for (MenuEntry entry : entries) {
+			String currentOption = entry.getOption();
+			if (optionListHashMap.containsKey(currentOption)) {
+				entry.setOption(optionListHashMap.get(currentOption));
+			}
+		}
+	}
+
 }
