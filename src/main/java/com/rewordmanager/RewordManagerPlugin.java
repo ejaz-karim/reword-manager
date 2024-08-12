@@ -242,9 +242,9 @@ public class RewordManagerPlugin extends Plugin {
 	private void remapSubmenuOptionText() {
 		MenuEntry[] entries = client.getMenuEntries();
 		for (MenuEntry entry : entries) {
-			String currentOption = entry.getOption();
-			if (optionListHashMap.containsKey(currentOption)) {
-				entry.setOption(optionListHashMap.get(currentOption));
+			String option = entry.getOption();
+			if (optionListHashMap.containsKey(option)) {
+				entry.setOption(optionListHashMap.get(option));
 			}
 		}
 	}
