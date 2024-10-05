@@ -32,4 +32,5 @@ Some special characters in the Chat list may not be reworded.
 If you are trying to modify a message in the Chat list containing `<`,`>` it will appear as `<lt>`,`<gt>` and may not be reworded.
 
 You can't use Swap left click teleport with the Menu Entry Swapper plugin if you have reworded the option text for the teleport that is selected as the left click option. This is because RuneLite associates the name with the action.
-Rewording the option text "Teleport" or "Teleports" to something else will break the submenu with the Menu Entry Swapper plugin.
+
+Rewording the teleport submenu text option will break the submenu with the Menu Entry Swapper plugin. The teleports in the submenu dropdown can't be reworded.
