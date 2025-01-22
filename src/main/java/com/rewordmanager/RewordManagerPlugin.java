@@ -3,10 +3,12 @@ package com.rewordmanager;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
+import net.runelite.api.ItemComposition;
 import net.runelite.api.MenuAction;
 import net.runelite.api.MenuEntry;
 import net.runelite.api.MessageNode;
@@ -217,21 +219,62 @@ public class RewordManagerPlugin extends Plugin {
 		return clanListHashMap.containsKey(clan);
 	}
 
+	// private void remapMenuEntryText(MenuEntry menuEntry, HashMap<String, String>
+	// map) {
+	// String target = menuEntry.getTarget();
+	// NPC npc = menuEntry.getNpc();
+	// String cleanTarget = null;
+	// if (npc != null) {
+	// cleanTarget = Text.removeTags(npc.getName());
+	// } else {
+	// cleanTarget = Text.removeTags(target);
+	// }
+	// for (HashMap.Entry<String, String> entry : map.entrySet()) {
+	// if (cleanTarget.equals(entry.getKey())) {
+	// menuEntry.setTarget(target.replace(entry.getKey(), entry.getValue()));
+	// }
+	// }
+	// }
+
+
+
+
+
+
+
 	private void remapMenuEntryText(MenuEntry menuEntry, HashMap<String, String> map) {
 		String target = menuEntry.getTarget();
+		int itemId = menuEntry.getItemId();
 		NPC npc = menuEntry.getNpc();
-		String cleanTarget = null;
+		String cleanTarget;
+	
 		if (npc != null) {
 			cleanTarget = Text.removeTags(npc.getName());
 		} else {
 			cleanTarget = Text.removeTags(target);
 		}
-		for (HashMap.Entry<String, String> entry : map.entrySet()) {
+	
+		if (itemId > -1) {
+			String itemReplacement = itemListHashMap.get(String.valueOf(itemId));
+			if (itemReplacement != null) {
+				ItemComposition itemComposition = client.getItemDefinition(itemId);
+				String itemName = itemComposition.getName();
+				menuEntry.setTarget(target.replace(itemName, itemReplacement));
+			}
+		}
+		for (Map.Entry<String, String> entry : map.entrySet()) {
 			if (cleanTarget.equals(entry.getKey())) {
 				menuEntry.setTarget(target.replace(entry.getKey(), entry.getValue()));
 			}
 		}
 	}
+	
+
+
+
+
+
+	
 
 	private void remapOptionText(MenuEntry event) {
 		if (optionListHashMap.containsKey(event.getOption())) {
