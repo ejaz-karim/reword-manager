@@ -3,7 +3,6 @@ package com.rewordmanager;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -222,6 +221,7 @@ public class RewordManagerPlugin extends Plugin {
 	private void remapMenuEntryText(MenuEntry menuEntry, HashMap<String, String> map) {
 		String target = menuEntry.getTarget();
 		NPC npc = menuEntry.getNpc();
+
 		String cleanTarget = null;
 		if (npc != null) {
 			cleanTarget = Text.removeTags(npc.getName());
@@ -233,6 +233,21 @@ public class RewordManagerPlugin extends Plugin {
 				menuEntry.setTarget(target.replace(entry.getKey(), entry.getValue()));
 			}
 		}
+
+		int itemId = menuEntry.getItemId();
+		if (itemId == -1) {
+			itemId = menuEntry.getIdentifier();
+		}
+
+		String itemIdReword = itemListHashMap.get(String.valueOf(itemId));
+		if (itemIdReword != null) {
+			ItemComposition itemComposition = client.getItemDefinition(itemId);
+			String itemName = itemComposition.getName();
+
+			String updatedTarget = target.replace(itemName, itemIdReword);
+			menuEntry.setTarget(updatedTarget);
+		}
+
 	}
 
 	private void remapOptionText(MenuEntry event) {
