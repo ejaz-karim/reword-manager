@@ -219,62 +219,21 @@ public class RewordManagerPlugin extends Plugin {
 		return clanListHashMap.containsKey(clan);
 	}
 
-	// private void remapMenuEntryText(MenuEntry menuEntry, HashMap<String, String>
-	// map) {
-	// String target = menuEntry.getTarget();
-	// NPC npc = menuEntry.getNpc();
-	// String cleanTarget = null;
-	// if (npc != null) {
-	// cleanTarget = Text.removeTags(npc.getName());
-	// } else {
-	// cleanTarget = Text.removeTags(target);
-	// }
-	// for (HashMap.Entry<String, String> entry : map.entrySet()) {
-	// if (cleanTarget.equals(entry.getKey())) {
-	// menuEntry.setTarget(target.replace(entry.getKey(), entry.getValue()));
-	// }
-	// }
-	// }
-
-
-
-
-
-
-
 	private void remapMenuEntryText(MenuEntry menuEntry, HashMap<String, String> map) {
 		String target = menuEntry.getTarget();
-		int itemId = menuEntry.getItemId();
 		NPC npc = menuEntry.getNpc();
-		String cleanTarget;
-	
+		String cleanTarget = null;
 		if (npc != null) {
 			cleanTarget = Text.removeTags(npc.getName());
 		} else {
 			cleanTarget = Text.removeTags(target);
 		}
-	
-		if (itemId > -1) {
-			String itemReplacement = itemListHashMap.get(String.valueOf(itemId));
-			if (itemReplacement != null) {
-				ItemComposition itemComposition = client.getItemDefinition(itemId);
-				String itemName = itemComposition.getName();
-				menuEntry.setTarget(target.replace(itemName, itemReplacement));
-			}
-		}
-		for (Map.Entry<String, String> entry : map.entrySet()) {
+		for (HashMap.Entry<String, String> entry : map.entrySet()) {
 			if (cleanTarget.equals(entry.getKey())) {
 				menuEntry.setTarget(target.replace(entry.getKey(), entry.getValue()));
 			}
 		}
 	}
-	
-
-
-
-
-
-	
 
 	private void remapOptionText(MenuEntry event) {
 		if (optionListHashMap.containsKey(event.getOption())) {
