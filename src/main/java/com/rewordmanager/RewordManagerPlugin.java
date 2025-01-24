@@ -241,8 +241,7 @@ public class RewordManagerPlugin extends Plugin {
 
 		String itemIdReword = itemListHashMap.get(String.valueOf(itemId));
 		if (itemIdReword != null) {
-			ItemComposition itemComposition = client.getItemDefinition(itemId);
-			String itemName = itemComposition.getName();
+			String itemName = client.getItemDefinition(itemId).getMembersName();
 
 			String updatedTarget = target.replace(itemName, itemIdReword);
 			menuEntry.setTarget(updatedTarget);
