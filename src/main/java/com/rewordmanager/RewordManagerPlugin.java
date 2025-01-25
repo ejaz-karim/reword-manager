@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.ItemComposition;
+import net.runelite.api.Menu;
 import net.runelite.api.MenuAction;
 import net.runelite.api.MenuEntry;
 import net.runelite.api.MessageNode;
@@ -256,8 +257,12 @@ public class RewordManagerPlugin extends Plugin {
 	}
 
 	private void remapSubmenuOptionText() {
-		MenuEntry[] entries = client.getMenuEntries();
-		for (MenuEntry entry : entries) {
+		// MenuEntry[] entries = client.getMenuEntries();
+
+		Menu menu = client.getMenu();
+		MenuEntry[] menuEntries = menu.getMenuEntries();
+
+		for (MenuEntry entry : menuEntries) {
 			String option = entry.getOption();
 			if (optionListHashMap.containsKey(option)) {
 				entry.setOption(optionListHashMap.get(option));
