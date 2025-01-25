@@ -156,7 +156,7 @@ public class RewordManagerPlugin extends Plugin {
 		if (NPC_MENU_ACTIONS.contains(entry.getType())) {
 			remapMenuEntryText(entry, npcListHashMap);
 		} else if (ITEM_MENU_ACTIONS.contains(entry.getType())) {
-			remapMenuEntryText(entry, itemListHashMap);
+			remapItemText(entry, itemListHashMap);
 		} else if (OBJECT_MENU_ACTIONS.contains(entry.getType())) {
 			remapMenuEntryText(entry, objectListHashMap);
 		}
@@ -220,19 +220,41 @@ public class RewordManagerPlugin extends Plugin {
 	}
 
 	private void remapMenuEntryText(MenuEntry menuEntry, HashMap<String, String> map) {
-		String target = menuEntry.getTarget();
-		NPC npc = menuEntry.getNpc();
+		// String target = menuEntry.getTarget();
+		// NPC npc = menuEntry.getNpc();
 
-		String cleanTarget = null;
-		if (npc != null) {
-			cleanTarget = Text.removeTags(npc.getName());
-		} else {
-			cleanTarget = Text.removeTags(target);
-		}
-		for (HashMap.Entry<String, String> entry : map.entrySet()) {
-			if (cleanTarget.equals(entry.getKey())) {
-				menuEntry.setTarget(target.replace(entry.getKey(), entry.getValue()));
-			}
+		// String cleanTarget = null;
+		// if (npc != null) {
+		// cleanTarget = Text.removeTags(npc.getName());
+		// } else {
+		// cleanTarget = Text.removeTags(target);
+		// }
+		// for (HashMap.Entry<String, String> entry : map.entrySet()) {
+		// if (cleanTarget.equals(entry.getKey())) {
+		// menuEntry.setTarget(target.replace(entry.getKey(), entry.getValue()));
+		// }
+		// }
+
+		// int itemId = menuEntry.getItemId();
+		// if (itemId == -1) {
+		// itemId = menuEntry.getIdentifier();
+		// }
+
+		// String itemIdReword = itemListHashMap.get(String.valueOf(itemId));
+		// if (itemIdReword != null) {
+		// String itemName = client.getItemDefinition(itemId).getMembersName();
+		// String targetReplace = target.replace(itemName, itemIdReword);
+		// menuEntry.setTarget(targetReplace);
+		// }
+
+	}
+
+	private void remapItemText(MenuEntry menuEntry, HashMap<String, String> map) {
+		String target = menuEntry.getTarget();
+		String cleanTarget = Text.removeTags(target);
+
+		if (map.containsKey(cleanTarget)) {
+			menuEntry.setTarget(target.replace(cleanTarget, map.get(cleanTarget)));
 		}
 
 		int itemId = menuEntry.getItemId();
@@ -243,9 +265,8 @@ public class RewordManagerPlugin extends Plugin {
 		String itemIdReword = itemListHashMap.get(String.valueOf(itemId));
 		if (itemIdReword != null) {
 			String itemName = client.getItemDefinition(itemId).getMembersName();
-
-			String updatedTarget = target.replace(itemName, itemIdReword);
-			menuEntry.setTarget(updatedTarget);
+			String targetReplace = target.replace(itemName, itemIdReword);
+			menuEntry.setTarget(targetReplace);
 		}
 
 	}
