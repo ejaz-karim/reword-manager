@@ -3,6 +3,7 @@ package com.rewordmanager;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -220,33 +221,20 @@ public class RewordManagerPlugin extends Plugin {
 	}
 
 	private void remapMenuEntryText(MenuEntry menuEntry, HashMap<String, String> map) {
-		// String target = menuEntry.getTarget();
-		// NPC npc = menuEntry.getNpc();
+		String target = menuEntry.getTarget();
+		NPC npc = menuEntry.getNpc();
 
-		// String cleanTarget = null;
-		// if (npc != null) {
-		// cleanTarget = Text.removeTags(npc.getName());
-		// } else {
-		// cleanTarget = Text.removeTags(target);
-		// }
-		// for (HashMap.Entry<String, String> entry : map.entrySet()) {
-		// if (cleanTarget.equals(entry.getKey())) {
-		// menuEntry.setTarget(target.replace(entry.getKey(), entry.getValue()));
-		// }
-		// }
-
-		// int itemId = menuEntry.getItemId();
-		// if (itemId == -1) {
-		// itemId = menuEntry.getIdentifier();
-		// }
-
-		// String itemIdReword = itemListHashMap.get(String.valueOf(itemId));
-		// if (itemIdReword != null) {
-		// String itemName = client.getItemDefinition(itemId).getMembersName();
-		// String targetReplace = target.replace(itemName, itemIdReword);
-		// menuEntry.setTarget(targetReplace);
-		// }
-
+		String cleanTarget = null;
+		if (npc != null) {
+			cleanTarget = Text.removeTags(npc.getName());
+		} else {
+			cleanTarget = Text.removeTags(target);
+		}
+		for (HashMap.Entry<String, String> entry : map.entrySet()) {
+			if (cleanTarget.equals(entry.getKey())) {
+				menuEntry.setTarget(target.replace(entry.getKey(), entry.getValue()));
+			}
+		}
 	}
 
 	private void remapItemText(MenuEntry menuEntry, HashMap<String, String> map) {
@@ -254,21 +242,19 @@ public class RewordManagerPlugin extends Plugin {
 		String cleanTarget = Text.removeTags(target);
 
 		if (map.containsKey(cleanTarget)) {
-			menuEntry.setTarget(target.replace(cleanTarget, map.get(cleanTarget)));
+			menuEntry.setTarget(target.replace(cleanTarget, map.getOrDefault(cleanTarget, cleanTarget)));
 		}
 
 		int itemId = menuEntry.getItemId();
 		if (itemId == -1) {
 			itemId = menuEntry.getIdentifier();
 		}
-
-		String itemIdReword = itemListHashMap.get(String.valueOf(itemId));
+		String itemIdReword = map.get(String.valueOf(itemId));
 		if (itemIdReword != null) {
 			String itemName = client.getItemDefinition(itemId).getMembersName();
 			String targetReplace = target.replace(itemName, itemIdReword);
 			menuEntry.setTarget(targetReplace);
 		}
-
 	}
 
 	private void remapOptionText(MenuEntry event) {
