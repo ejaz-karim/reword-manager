@@ -20,7 +20,7 @@ public interface RewordManagerConfig extends Config {
 		return "";
 	}
 
-	@ConfigItem(keyName = "itemList", name = "Item List (Items, Spells, Prayers, etc.)", description = "Use CSV format: x,y (case-sensitive).<br>Each entry uses a new line.<br>For rewording anything considered an Item including: Items, Spells, Prayers, Emotes, etc.", position = 3, section = rewordLists)
+	@ConfigItem(keyName = "itemList", name = "Item List (Items/IDs, Spells, Prayers)", description = "Use CSV format: x,y (case-sensitive).<br>Each entry uses a new line.<br>For rewording anything considered an Item including: Items, Spells, Prayers, Emotes, etc.", position = 3, section = rewordLists)
 	default String itemList() {
 		return "";
 	}
