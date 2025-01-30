@@ -3,12 +3,10 @@ package com.rewordmanager;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
-import net.runelite.api.ItemComposition;
 import net.runelite.api.Menu;
 import net.runelite.api.MenuAction;
 import net.runelite.api.MenuEntry;
@@ -264,8 +262,6 @@ public class RewordManagerPlugin extends Plugin {
 	}
 
 	private void remapSubmenuOptionText() {
-		// MenuEntry[] entries = client.getMenuEntries();
-
 		Menu menu = client.getMenu();
 		MenuEntry[] menuEntries = menu.getMenuEntries();
 
