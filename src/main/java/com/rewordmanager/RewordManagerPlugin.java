@@ -98,7 +98,7 @@ public class RewordManagerPlugin extends Plugin {
 		MessageNode messageNode = chatMessage.getMessageNode();
 
 		String message = messageNode.getValue();
-		String player = messageNode.getName();
+		String player = messageNode.getName().replaceAll("<.*?>", "");
 		String clan = messageNode.getSender();
 
 		if (!checkMessage(message) && !checkPlayer(player) && !checkClan(clan)) {
@@ -106,11 +106,17 @@ public class RewordManagerPlugin extends Plugin {
 		}
 
 		final ChatMessageBuilder builder = new ChatMessageBuilder();
-		builder.append(ChatColorType.HIGHLIGHT).append("[Modified] ");
 
 		messageNode.setSender(clanListHashMap.getOrDefault(clan, clan));
 
-		messageNode.setName(playerListHashMap.getOrDefault(player, player));
+		String modifiedName = playerListHashMap.getOrDefault(player, player);
+
+		if (!player.equals(modifiedName)) {
+			builder.append(ChatColorType.HIGHLIGHT).append("<" + modifiedName + "> ");
+		}
+		else {
+			builder.append(ChatColorType.HIGHLIGHT).append("<Modified> ");
+		}
 
 		String[] words = message.split("\\s");
 		for (String word : words) {
