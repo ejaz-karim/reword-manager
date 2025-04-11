@@ -111,11 +111,11 @@ public class RewordManagerPlugin extends Plugin {
 
 		String modifiedName = playerListHashMap.getOrDefault(player, player);
 
-		if (player.equals(modifiedName)) {
-			builder.append(ChatColorType.HIGHLIGHT).append("<Modified> ");
+		if (!player.equals(modifiedName)) {
+			builder.append(ChatColorType.HIGHLIGHT).append("<" + modifiedName + "> ");
 		}
 		else {
-			builder.append(ChatColorType.HIGHLIGHT).append("<" + modifiedName + "> ");
+			builder.append(ChatColorType.HIGHLIGHT).append("<Modified> ");
 		}
 
 		String[] words = message.split("\\s");
