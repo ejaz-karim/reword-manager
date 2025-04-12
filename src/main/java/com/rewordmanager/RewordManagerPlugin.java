@@ -107,16 +107,19 @@ public class RewordManagerPlugin extends Plugin {
 
 		final ChatMessageBuilder builder = new ChatMessageBuilder();
 
+		if (config.altNaming()) {
+
+			builder.append(ChatColorType.HIGHLIGHT).append("(" + playerListHashMap.getOrDefault(player, player) + ") ");
+
+		} else {
+
+			messageNode.setName(playerListHashMap.getOrDefault(player, player));
+
+		}
+
 		messageNode.setSender(clanListHashMap.getOrDefault(clan, clan));
 
-		String modifiedName = playerListHashMap.getOrDefault(player, player);
-
-		if (!player.equals(modifiedName)) {
-			builder.append(ChatColorType.HIGHLIGHT).append("<" + modifiedName + "> ");
-		}
-		else {
-			builder.append(ChatColorType.HIGHLIGHT).append("<Modified> ");
-		}
+		builder.append(ChatColorType.HIGHLIGHT).append("<Modified> ");
 
 		String[] words = message.split("\\s");
 		for (String word : words) {

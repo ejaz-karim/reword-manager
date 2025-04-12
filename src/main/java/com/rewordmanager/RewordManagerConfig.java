@@ -50,7 +50,7 @@ public interface RewordManagerConfig extends Config {
 		return true;
 	}
 
-	@ConfigItem(keyName = "altNaming", name = "Alternative Naming Method", description = "Toggle to have an alternative naming method, which preserves ranks in clan chats", position = 9)
+	@ConfigItem(keyName = "altNaming", name = "Alternative Player Naming Method", description = "Toggle to have an alternative player naming method, which preserves ranks in clan chats", position = 9)
 	default boolean altNaming() {
 		return false;
 	}
