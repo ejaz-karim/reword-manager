@@ -23,7 +23,7 @@ Entering data in the lists must be in the CSV format ***x,y*** and is case-sensi
 
 ## Exceptions and Limitations
 
-Known bug: Rewording player & clan names may not work if the name contains a space. Rewording player names may not work if the player is an ironman.
+Known bug: Rewording player & clan names may not work if the name contains a space.
 
 Messages containing `</col>` or `<br>` will not be modified. E.g. Checking Serpentine helm scales, Casting a line in Barbarian fishing.
 
@@ -31,6 +31,4 @@ Some special characters in the Chat list may not be reworded.
 
 If you are trying to modify a message in the Chat list containing `<`,`>` it will appear as `<lt>`,`<gt>` and may not be reworded.
 
-You can't use Swap left click teleport with the Menu Entry Swapper plugin if you have reworded the option text for the teleport that is selected as the left click option. This is because RuneLite associates the name with the action.
-
-Rewording the teleport submenu text option will break the submenu with the Menu Entry Swapper plugin. The teleports in the submenu dropdown can't be reworded.
+Swapping left click teleport (Menu Entry Swapper) will break if you reword the option text. This is because RuneLite associates the name with the action.
