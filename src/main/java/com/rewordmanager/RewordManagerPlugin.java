@@ -107,13 +107,19 @@ public class RewordManagerPlugin extends Plugin {
 
 		final ChatMessageBuilder builder = new ChatMessageBuilder();
 
-		if (config.altNaming()) {
+		if (config.altNaming() && checkPlayer(player)) {
 
 			builder.append(ChatColorType.HIGHLIGHT).append("(" + playerListHashMap.getOrDefault(player, player) + ") ");
 
 		} else {
 
-			messageNode.setName(playerListHashMap.getOrDefault(player, player));
+			String playerFullName = messageNode.getName();
+			String playerPrefix = "";
+			if (playerFullName.contains(">")) {
+				playerPrefix = playerFullName.replaceAll(">(?!.*>).*", ">");
+			}
+
+			messageNode.setName(playerPrefix + playerListHashMap.getOrDefault(player, player));
 
 		}
 
