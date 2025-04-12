@@ -49,4 +49,10 @@ public interface RewordManagerConfig extends Config {
 	default boolean overheadText() {
 		return true;
 	}
+
+	@ConfigItem(keyName = "altNaming", name = "Alternative Naming Method", description = "Toggle to have an alternative naming method, which preserves ranks in clan chats", position = 9)
+	default boolean altNaming() {
+		return false;
+	}
+
 }
