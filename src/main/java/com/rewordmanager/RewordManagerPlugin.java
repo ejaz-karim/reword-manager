@@ -281,6 +281,7 @@ public class RewordManagerPlugin extends Plugin {
 	 *             {@link remapOptionText(MenuEntry)} will work
 	 *             instead.
 	 */
+	@SuppressWarnings("unused")
 	@Deprecated
 	private void remapSubmenuOptionText() {
 		Menu menu = client.getMenu();
