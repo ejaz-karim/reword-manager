@@ -20,7 +20,7 @@ public interface RewordManagerConfig extends Config {
 		return "";
 	}
 
-	@ConfigItem(keyName = "itemList", name = "Item List (Items/IDs, Spells, Prayers)", description = "Use CSV format: x,y (case-sensitive).<br>Each entry uses a new line.<br>For rewording anything considered an Item including: Item names, Item IDs, Spells, Prayers, Emotes, etc.", position = 3, section = rewordLists)
+	@ConfigItem(keyName = "itemList", name = "Item List (Items, IDs, Spells, Prayers)", description = "Use CSV format: x,y (case-sensitive).<br>Each entry uses a new line.<br>For rewording anything considered an Item including: Item names, Item IDs, Spells, Prayers, Emotes, etc.<br>You can find item IDs at: https://oldschool.runescape.wiki/w/Item_IDs", position = 3, section = rewordLists)
 	default String itemList() {
 		return "";
 	}
