@@ -3,9 +3,7 @@ package com.rewordmanager;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Provides;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +16,8 @@ import net.runelite.api.NPC;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.MenuEntryAdded;
-import net.runelite.api.events.MenuOpened;
 import net.runelite.api.events.OverheadTextChanged;
+import net.runelite.api.events.PostClientTick;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
@@ -162,15 +160,9 @@ public class RewordManagerPlugin extends Plugin {
 		}
 	}
 
-	private final List<MenuEntry> pendingOptionRenames = new ArrayList<>();
-
 	@Subscribe
 	protected void onMenuEntryAdded(MenuEntryAdded event) {
 		MenuEntry entry = event.getMenuEntry();
-
-		if (!optionListHashMap.isEmpty()) {
-			pendingOptionRenames.add(entry);
-		}
 
 		if (NPC_MENU_ACTIONS.contains(entry.getType())) {
 			remapMenuEntryText(entry, npcListHashMap);
@@ -182,21 +174,24 @@ public class RewordManagerPlugin extends Plugin {
 	}
 
 	@Subscribe
-	public void onMenuOpened(MenuOpened event) {
+	public void onPostClientTick(PostClientTick event) {
 
-		if (optionListHashMap.isEmpty()) {
-			return;
+		if (!optionListHashMap.isEmpty()) {
+			Menu menu = client.getMenu();
+
+			for (MenuEntry entry : menu.getMenuEntries()) {
+				remapOptionText(entry);
+
+				if (entry.getSubMenu() != null) {
+					MenuEntry[] subMenus = entry.getSubMenu().getMenuEntries();
+
+					for (MenuEntry subMenuEntry : subMenus) {
+						remapOptionText(subMenuEntry);
+					}
+
+				}
+			}
 		}
-
-		for (MenuEntry entry : pendingOptionRenames) {
-			remapOptionText(entry);
-		}
-
-		for (MenuEntry entry : event.getMenuEntries()) {
-			remapOptionText(entry);
-		}
-
-		pendingOptionRenames.clear();
 	}
 
 	@Provides
