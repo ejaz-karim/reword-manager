@@ -47,5 +47,3 @@ Messages containing `</col>` or `<br>` will not be modified. E.g. Checking Serpe
 Some special characters in the Chat list may not be reworded.
 
 If you are trying to modify a message in the Chat list containing `<`,`>` it will appear as `<lt>`,`<gt>` and may not be reworded.
-
-When using the Menu Entry Swapper plugin for a left-click teleport, the text in the top-left corner (Mouseover text) won’t be reworded.

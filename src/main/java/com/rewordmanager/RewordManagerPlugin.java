@@ -18,6 +18,7 @@ import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.OverheadTextChanged;
 import net.runelite.api.events.PostClientTick;
+import net.runelite.api.events.PostMenuSort;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
@@ -30,7 +31,7 @@ import net.runelite.client.chat.ChatMessageBuilder;
 @Slf4j
 @PluginDescriptor(name = "Reword Manager", description = "Reword Chat messages, Items, NPCs, Objects, Options, Players, Clans", tags = {
 		"reword", "word", "text", "rename", "replace", "acronym", "abbreviate", "chat", "message", "npc", "item",
-		"object", "option", "player", "clan" })
+		"object", "option", "player", "clan", "id", "spells", "prayers", "emotes" })
 
 public class RewordManagerPlugin extends Plugin {
 	private final HashMap<String, String> chatListHashMap = new HashMap<>();
@@ -182,13 +183,11 @@ public class RewordManagerPlugin extends Plugin {
 			for (MenuEntry entry : menu.getMenuEntries()) {
 				remapOptionText(entry);
 
-				if (entry.getSubMenu() != null) {
-					MenuEntry[] subMenus = entry.getSubMenu().getMenuEntries();
-
-					for (MenuEntry subMenuEntry : subMenus) {
+				Menu subMenu = entry.getSubMenu();
+				if (subMenu != null) {
+					for (MenuEntry subMenuEntry : subMenu.getMenuEntries()) {
 						remapOptionText(subMenuEntry);
 					}
-
 				}
 			}
 		}
