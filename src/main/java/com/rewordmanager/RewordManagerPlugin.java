@@ -16,6 +16,7 @@ import net.runelite.api.NPC;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.MenuEntryAdded;
+import net.runelite.api.events.MenuOpened;
 import net.runelite.api.events.OverheadTextChanged;
 import net.runelite.api.events.PostClientTick;
 import net.runelite.client.config.ConfigManager;
@@ -175,21 +176,12 @@ public class RewordManagerPlugin extends Plugin {
 
 	@Subscribe
 	public void onPostClientTick(PostClientTick event) {
+		applyOptionText();
+	}
 
-		if (!optionListHashMap.isEmpty()) {
-			Menu menu = client.getMenu();
-
-			for (MenuEntry entry : menu.getMenuEntries()) {
-				remapOptionText(entry);
-
-				Menu subMenu = entry.getSubMenu();
-				if (subMenu != null) {
-					for (MenuEntry subMenuEntry : subMenu.getMenuEntries()) {
-						remapOptionText(subMenuEntry);
-					}
-				}
-			}
-		}
+	@Subscribe
+	protected void onMenuOpened(MenuOpened event) {
+		applyOptionText();
 	}
 
 	@Provides
@@ -289,6 +281,23 @@ public class RewordManagerPlugin extends Plugin {
 	private void remapOptionText(MenuEntry event) {
 		if (optionListHashMap.containsKey(event.getOption())) {
 			event.setOption(optionListHashMap.get(event.getOption()));
+		}
+	}
+
+	private void applyOptionText() {
+		if (!optionListHashMap.isEmpty()) {
+			Menu menu = client.getMenu();
+
+			for (MenuEntry entry : menu.getMenuEntries()) {
+				remapOptionText(entry);
+
+				Menu subMenu = entry.getSubMenu();
+				if (subMenu != null) {
+					for (MenuEntry subMenuEntry : subMenu.getMenuEntries()) {
+						remapOptionText(subMenuEntry);
+					}
+				}
+			}
 		}
 	}
 
