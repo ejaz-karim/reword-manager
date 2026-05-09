@@ -1,6 +1,6 @@
 # Reword Manager
 
-[![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.runelite.net%2Fpluginhub%2Fshields%2Finstalls%2Fplugin%2Freword-manager&style=for-the-badge&label=Active%20installs)](https://runelite.net/plugin-hub/ejaz-karim)
+[![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.runelite.net%2Fpluginhub%2Fshields%2Finstalls%2Fplugin%2Freword-manager&label=Active%20Users)](https://runelite.net/plugin-hub/ejaz-karim)
 
 A plugin for [RuneLite](https://runelite.net/plugin-hub/ejaz-karim)
 
@@ -8,7 +8,7 @@ This project uses Adoptium Eclipse Temurin 11 as its JDK.
 
 ## Introduction
 
-Reword Manager will allow for Chat messages, Item names, Item IDs, Spells, Prayers, Emotes, NPCs, Objects, Options, Player, and Clan names to be modified.
+Reword Manager allows you to rename or modify: Chat messages, Item names, Item IDs, Spells, Prayers, Emotes, NPCs, Objects, Options, Teleport Submenus, Player names, Clan names
 
 ## Examples
 
