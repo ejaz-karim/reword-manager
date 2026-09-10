@@ -243,18 +243,32 @@ public class RewordManagerPlugin extends Plugin {
 
 	private void remapMenuEntryText(MenuEntry menuEntry, HashMap<String, String> map) {
 		String target = menuEntry.getTarget();
-		NPC npc = menuEntry.getNpc();
-
-		String cleanTarget = null;
-		if (npc != null) {
-			cleanTarget = Text.removeTags(npc.getName());
-		} else {
-			cleanTarget = Text.removeTags(target);
+		if (target == null) {
+			return;
 		}
+
+		String name = null;
+		String idReword = null;
+
+		NPC npc = menuEntry.getNpc();
+		if (npc != null) {
+			name = npc.getName();
+			idReword = map.get(String.valueOf(npc.getId()));
+		} else if (OBJECT_MENU_ACTIONS.contains(menuEntry.getType())) {
+			int objectId = menuEntry.getIdentifier();
+			name = client.getObjectDefinition(objectId).getName();
+			idReword = map.get(String.valueOf(objectId));
+		}
+
+		String cleanTarget = npc != null ? Text.removeTags(npc.getName()) : Text.removeTags(target);
 		for (HashMap.Entry<String, String> entry : map.entrySet()) {
 			if (cleanTarget.equals(entry.getKey())) {
 				menuEntry.setTarget(target.replace(entry.getKey(), entry.getValue()));
 			}
+		}
+
+		if (idReword != null && name != null && !name.isEmpty()) {
+			menuEntry.setTarget(target.replace(name, idReword));
 		}
 	}
 
