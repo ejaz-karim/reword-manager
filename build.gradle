@@ -14,6 +14,7 @@ repositories {
 }
 
 def runeLiteVersion = 'latest.release'
+def pluginMainClass = 'com.rewordmanager.RewordManagerPluginTest'
 
 dependencies {
 	compileOnly group: 'net.runelite', name:'client', version: runeLiteVersion
@@ -27,17 +28,24 @@ dependencies {
 }
 
 group = 'com.rewordmanager'
-version = '1.6.0'
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = 'UTF-8'
 	options.release.set(11)
 }
 
+tasks.register('run', JavaExec) {
+	classpath = sourceSets.test.runtimeClasspath
+	mainClass = pluginMainClass
+
+	jvmArgs "-ea"
+	args "--developer-mode", "--debug"
+}
+
 tasks.register('shadowJar', Jar) {
 	dependsOn configurations.testRuntimeClasspath
 	manifest {
-		attributes('Main-Class': 'com.rewordmanager.RewordManagerPluginTest', 'Multi-Release': true)
+		attributes('Main-Class': pluginMainClass, 'Multi-Release': true)
 	}
 
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE

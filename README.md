@@ -8,11 +8,11 @@ This project uses Adoptium Eclipse Temurin 11 as its JDK.
 
 ## Introduction
 
-Reword Manager allows you to rename or modify: Chat messages, Item names, Item IDs, Spells, Prayers, Emotes, NPC names/IDs, Object names/IDs, Options, Teleport Submenus, Player names, Clan names
+Reword Manager allows you to rename or modify: Chat messages, Item Names/IDs, Spells, Prayers, Emotes, NPC Names/IDs, Object Names/IDs, Options, Teleport Submenus, Player names, Clan names
 
 ## Examples
 
-NPC List
+NPC List (Names, IDs)
 
 	Wise Old Man,Example1
 	Vannaka,Example2
@@ -22,10 +22,10 @@ NPC List
 
 Item List (Items, IDs, Spells, Prayers, Emotes)
 
-	Dragon scimitar,Example
-	Fire Strike,Example1
-	Smite,Example2
-	Goblin Salute,Example3
+	Dragon scimitar,Example1
+	Fire Strike,Example2
+	Smite,Example3
+	Goblin Salute,Example4
 	22798,Bird nest (seeds)
 	22800,Bird nest (Wyson)
 	5070,Bird nest (Red egg)
@@ -39,13 +39,7 @@ Item List (Items, IDs, Spells, Prayers, Emotes)
 
 Entering data in the lists must be in the CSV format ***x,y*** and is case-sensitive. You **MUST** use a new line for new entries. It is possible to recolour the names of NPCs, Items, etc. with HTML Hexadecimal colour codes.
 
-You can find IDs at:
-
-https://oldschool.runescape.wiki/w/Item_IDs
-
-https://oldschool.runescape.wiki/w/NPC_IDs
-
-https://oldschool.runescape.wiki/w/Object_IDs
+You can find IDs using a plugin called "Identificator"
 
 ## Limitations
 
