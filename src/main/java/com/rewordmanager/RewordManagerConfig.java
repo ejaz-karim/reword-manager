@@ -15,7 +15,7 @@ public interface RewordManagerConfig extends Config {
 		return "Example1,Example2\nExample2,Example3\nExample3,Example4";
 	}
 
-	@ConfigItem(keyName = "npcList", name = "NPC List (Names, IDs)", description = "Use CSV format: x,y (case-sensitive).<br>Each entry uses a new line.<br>For rewording the Names/IDs of NPCs.", position = 2, section = rewordLists)
+	@ConfigItem(keyName = "npcList", name = "NPC List", description = "Use CSV format: x,y (case-sensitive).<br>Each entry uses a new line.<br>For rewording the Names of NPCs.", position = 2, section = rewordLists)
 	default String npcList() {
 		return "";
 	}
@@ -25,7 +25,7 @@ public interface RewordManagerConfig extends Config {
 		return "";
 	}
 
-	@ConfigItem(keyName = "objectList", name = "Object List (Names, IDs)", description = "Use CSV format: x,y (case-sensitive).<br>Each entry uses a new line.<br>For rewording the Names/IDs of objects.", position = 4, section = rewordLists)
+	@ConfigItem(keyName = "objectList", name = "Object List", description = "Use CSV format: x,y (case-sensitive).<br>Each entry uses a new line.<br>For rewording the Names of objects.", position = 4, section = rewordLists)
 	default String objectList() {
 		return "";
 	}

@@ -8,16 +8,15 @@ This project uses Adoptium Eclipse Temurin 11 as its JDK.
 
 ## Introduction
 
-Reword Manager allows you to rename or modify: Chat messages, Item Names/IDs, Spells, Prayers, Emotes, NPC Names/IDs, Object Names/IDs, Options, Teleport Submenus, Player names, Clan names
+Reword Manager allows you to rename or modify: Chat messages, Item Names/IDs, Spells, Prayers, Emotes, NPC Names, Object Names, Options, Teleport Submenus, Player names, Clan names
 
 ## Examples
 
-NPC List (Names, IDs)
+NPC List
 
 	Wise Old Man,Example1
 	Vannaka,Example2
  	Bob,Example3
-	3106,Example4
  	Zaff,<col=ff0000>Zaff</col>
 
 Item List (Items, IDs, Spells, Prayers, Emotes)
