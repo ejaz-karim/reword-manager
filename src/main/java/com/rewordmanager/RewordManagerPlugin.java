@@ -101,8 +101,8 @@ public class RewordManagerPlugin extends Plugin {
 		MessageNode messageNode = chatMessage.getMessageNode();
 
 		String message = messageNode.getValue();
-		String player = messageNode.getName().replaceAll("<.*?>", "");
-		String clan = messageNode.getSender();
+		String player = sanitizeChatName(messageNode.getName());
+		String clan = sanitizeChatName(messageNode.getSender());
 
 		if (!checkMessage(message) && !checkPlayer(player) && !checkClan(clan)) {
 			return;
@@ -216,8 +216,20 @@ public class RewordManagerPlugin extends Plugin {
 		String[] lines = csv.split("\n");
 		for (String line : lines) {
 			String[] keyValue = line.split(",", 2);
-			hashMap.put(keyValue[0], keyValue[1]);
+			if (keyValue.length < 2 || keyValue[0].isBlank()) {
+				continue;
+			}
+			hashMap.put(sanitizeChatName(keyValue[0]), keyValue[1]);
 		}
+	}
+
+	static String sanitizeChatName(String raw) {
+		if (raw == null) {
+			return "";
+		}
+		String cleaned = Text.sanitize(raw);
+		cleaned = cleaned.replaceAll("<.*?>", "");
+		return cleaned.trim();
 	}
 
 	private boolean checkMessage(String message) {
