@@ -42,8 +42,6 @@ You can find IDs using a plugin called "Identificator"
 
 ## Limitations
 
-- Known bug: Rewording player & clan names may not work if the name contains a space.
-
 - Messages containing `</col>` or `<br>` will not be modified. E.g. Checking Serpentine helm scales, Casting a line in Barbarian fishing.
 
 - Certain special characters cannot be reworded. For example, `*` cannot, whereas `!` and `:` can.
